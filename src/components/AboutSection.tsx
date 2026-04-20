@@ -1,0 +1,138 @@
+import { useEffect, useRef, useCallback } from 'react';
+
+/**
+ * AboutSection — Parashux-style 4-layer scroll reveal
+ * 
+ * Layer 1: Center portrait — scale(0.72 → 1.0) driven by scroll progress 1:1
+ * Layer 2: Left hand     — translateX(-130% → -8%) at dampened 0.85× speed
+ * Layer 3: Right hand    — translateX(+130% → +8%) at dampened 0.85× speed
+ * Layer 4: Bio text      — IntersectionObserver staggered fade-up, 140ms stagger
+ */
+
+function getScrollProgress(section: HTMLElement): number {
+  const rect = section.getBoundingClientRect();
+  const windowH = window.innerHeight;
+  const total = rect.height + windowH;
+  const current = windowH - rect.top;
+  return Math.min(1, Math.max(0, current / total));
+}
+
+export default function AboutSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const portraitRef = useRef<HTMLDivElement>(null);
+  const handLeftRef = useRef<HTMLDivElement>(null);
+  const handRightRef = useRef<HTMLDivElement>(null);
+  const bioRef = useRef<HTMLDivElement>(null);
+  const rafId = useRef(0);
+
+  const animate = useCallback(() => {
+    const section = sectionRef.current;
+    if (!section) {
+      rafId.current = requestAnimationFrame(animate);
+      return;
+    }
+
+    const progress = getScrollProgress(section);
+    // Master opacity for the reveal: fades in over the first 30% of scroll
+    const revealOp = Math.min(1, progress * 3.33);
+
+    // LAYER 1: Center Portrait
+    if (portraitRef.current) {
+      const scale = 1 + progress * 0.28;
+      portraitRef.current.style.transform = `scale(${scale})`;
+      portraitRef.current.style.opacity = String(revealOp);
+    }
+
+    // LAYER 4: Bio Text (now part of the same reveal)
+    if (bioRef.current) {
+      bioRef.current.style.opacity = String(revealOp);
+      // Optional: slight translateY slide as it fades in
+      const bioY = (1 - revealOp) * 20;
+      bioRef.current.style.transform = `translateY(${bioY}px)`;
+    }
+
+    // Damped progress for hands (0.85× speed)
+    const dampedProgress = progress * 0.85;
+
+    // LAYER 2: Left Hand
+    if (handLeftRef.current) {
+      const leftX = -25 + dampedProgress * 85; // Start visible, move deep inward
+      const rotation = -15 + dampedProgress * 15;
+      const scale = 0.9 + dampedProgress * 0.2;
+      handLeftRef.current.style.transform = `translateX(${leftX}%) translateY(-50%) rotate(${rotation}deg) scale(${scale})`;
+      handLeftRef.current.style.opacity = String(revealOp);
+    }
+
+    // LAYER 3: Right Hand
+    if (handRightRef.current) {
+      const rightX = 25 - dampedProgress * 85; // Start visible, move deep inward
+      const rotation = 15 - dampedProgress * 15;
+      const scale = 0.9 + dampedProgress * 0.2;
+      handRightRef.current.style.transform = `translateX(${rightX}%) translateY(-50%) rotate(${rotation}deg) scale(${scale})`;
+      handRightRef.current.style.opacity = String(revealOp);
+    }
+
+    rafId.current = requestAnimationFrame(animate);
+  }, []);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if (portraitRef.current) portraitRef.current.style.transform = 'scale(1)';
+      if (handLeftRef.current) handLeftRef.current.style.transform = 'translateX(-10%) translateY(-50%)';
+      if (handRightRef.current) handRightRef.current.style.transform = 'translateX(10%) translateY(-50%)';
+      if (bioRef.current) bioRef.current.style.opacity = '1';
+      return;
+    }
+
+    rafId.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafId.current);
+  }, [animate]);
+
+  return (
+    <section ref={sectionRef} className="about-section" id="about">
+      <div className="about-inner">
+        {/* Layer 2: Left hand */}
+        <div ref={handLeftRef} className="hand hand-left">
+          <img
+            src="/about-files/left-hand.png"
+            alt=""
+            draggable={false}
+          />
+        </div>
+
+        {/* Center Composition: Portrait + Bio Text */}
+        <div className="about-center-composition">
+          <div ref={portraitRef} className="about-portrait">
+            <img
+              src="/about-files/about.png"
+              alt="About portrait"
+              draggable={false}
+            />
+          </div>
+
+          <div ref={bioRef} className="about-bio">
+            <p className="bio-line bio-revealed">
+              From <strong>Solapur, Maharashtra</strong>, I’m <strong>Vaibhav</strong>—somewhere between code and consciousness. I study <strong>Data Science and AI at IIT Madras</strong>, building a strong foundation while stepping into psychology. I’m curious about both systems and the human mind—how machines learn, and why people think, feel, and behave the way they do.
+            </p>
+            <p className="bio-line bio-revealed">
+              I care about design, clarity, and the way ideas take shape. Whether it’s code, a concept, or a product, I approach things with intention—learning deeply, building patiently, and refining my vision through hands-on work and exploration.
+            </p>
+            <p className="bio-line bio-revealed">
+              Outside of academics, I’m shaped by <strong>music, literature</strong>, and quiet observation. Flute, sitar, harmonium, piano—different forms, same expression. Drawn to nature and human philosophy, I’m exploring the intersection of <strong>AI, creativity, and human behavior</strong>, one step at a time.
+            </p>
+          </div>
+        </div>
+
+        {/* Layer 3: Right hand */}
+        <div ref={handRightRef} className="hand hand-right">
+          <img
+            src="/about-files/right-hand.png"
+            alt=""
+            draggable={false}
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+

@@ -1,0 +1,137 @@
+.vibe-section {
+  position: relative;
+  width: 100%;
+  padding: 0;
+  z-index: 10;
+}
+
+.vibe-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.vibe-title {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 300;
+  color: #000000;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.vibe-subtitle {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: rgba(0, 0, 0, 0.6);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.vibe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-auto-rows: 200px;
+  grid-auto-flow: dense; /* Fill in gaps for a perfect bento layout */
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.vibe-item {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* Softer shadow for light mode */
+  cursor: pointer;
+  background-color: #f0f0f0; /* Fallback background while loading */
+}
+
+.vibe-item.vibe-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.vibe-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block; /* Remove inline image spacing issues */
+  transition: transform 0.5s ease;
+}
+
+.vibe-item:hover .vibe-image {
+  transform: scale(1.05);
+}
+
+.vibe-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.vibe-item:hover .vibe-overlay {
+  opacity: 1;
+}
+
+/* Organic Grid Spans */
+.vibe-item-large {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.vibe-item-wide {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+.vibe-item-tall {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+@media (max-width: 768px) {
+  .vibe-section {
+    padding: 3rem 0; /* Less padding on mobile */
+  }
+  
+  .vibe-header {
+    margin-bottom: 2.5rem;
+    padding: 0 1rem;
+  }
+
+  .vibe-grid {
+    grid-template-columns: repeat(2, 1fr); /* Keep 2 columns to maintain the bento look */
+    grid-auto-rows: minmax(120px, auto); /* Flexible smaller rows */
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+  }
+  
+  /* Preserve organic shapes on mobile */
+  .vibe-item-large {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  
+  .vibe-item-wide {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+  
+  .vibe-item-tall {
+    grid-column: span 1;
+    grid-row: span 2;
+  }
+}
+
+@media (max-width: 480px) {
+  .vibe-grid {
+    grid-auto-rows: 140px; /* Specific row height for tighter packing on small phones */
+  }
+}
+

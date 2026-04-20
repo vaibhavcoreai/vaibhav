@@ -1,0 +1,126 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   scroll-effects.css — Unified scroll animation stylesheet
+   
+   Data-attribute driven animations:
+     data-scroll="fade-up"    → line-by-line text reveal
+     data-scroll="scale-in"   → card scale-in with overshoot
+     data-scroll="parallax"   → parallax layer (JS-driven transforms)
+     data-scroll="sticky-text"→ sticky pinned section
+     data-glow="entry"        → electric blue glow border on entry
+   
+   All transforms are GPU-composited (translate, scale, opacity only).
+   Respects prefers-reduced-motion.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Lenis base ───────────────────────────────────── */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ── EFFECT 5: Text Reveal (fade-up) ──────────────── */
+
+/* Initial hidden state — each child line/paragraph */
+[data-scroll="fade-up"] > * {
+  opacity: 0;
+  transform: translateY(24px);
+  will-change: transform, opacity;
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),     /* spring-like: fast start, slow settle */
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Revealed state — applied per-child with stagger delay via JS */
+[data-scroll="fade-up"] > *.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* When the container itself is a single element (no children to stagger) */
+[data-scroll="fade-up"].revealed-self {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ── EFFECT 6: Card Scale-In ──────────────────────── */
+
+[data-scroll="scale-in"] {
+  opacity: 0;
+  transform: scale(0.88);
+  will-change: transform, opacity;
+  transition:
+    opacity 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),     /* overshoot/bounce easing */
+    transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+[data-scroll="scale-in"].revealed {
+  opacity: 1;
+  transform: scale(1);
+}
+
+
+/* ── EFFECT: Glow entry (data-attribute version) ──── */
+
+[data-glow="entry"].glow-active {
+  box-shadow:
+    0 0 0 3px #1a8cff,
+    0 0 40px 4px rgba(26, 140, 255, 0.4),
+    0 0 80px 8px rgba(26, 140, 255, 0.15),
+    inset 0 0 30px 0 rgba(26, 140, 255, 0.06);
+}
+
+[data-glow="entry"].glow-fade {
+  box-shadow:
+    0 0 0 0px transparent,
+    0 0 0px 0px transparent,
+    0 0 0px 0px transparent,
+    inset 0 0 0px 0 transparent;
+  transition: box-shadow 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+
+/* ── will-change cleanup ──────────────────────────── */
+/* Remove will-change after animation to free GPU memory */
+[data-scroll].revealed,
+[data-scroll] > *.revealed {
+  will-change: auto;
+}
+
+
+/* ── prefers-reduced-motion ───────────────────────── */
+/* Disable ALL scroll animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  [data-scroll="fade-up"] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  [data-scroll="scale-in"] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  [data-glow="entry"] {
+    box-shadow: none !important;
+    transition: none !important;
+  }
+
+  /* Disable smooth scroll */
+  html.lenis, html.lenis body {
+    scroll-behavior: auto !important;
+  }
+}

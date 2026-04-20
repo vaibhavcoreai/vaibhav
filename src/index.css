@@ -1,0 +1,894 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Cormorant+Garamond:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
+}
+
+@layer base {
+  body {
+    @apply bg-[#0e0e0e] text-[#ededed];
+    overflow-x: hidden;
+  }
+}
+
+/* ── New Hero Section ────────────────────────────── */
+
+.hero-new {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(to bottom, #020617 0%, #0b1a30 25%, #1e4b8a 55%, #93c5fd 85%, #ffffff 100%);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.hero-sound-toggle {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.8;
+  z-index: 50;
+  border: 1px solid #ffffff;
+  padding: 0.6rem 1rem;
+  border-radius: 0;
+  transition: all 0.3s ease;
+}
+
+.hero-sound-toggle:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.hero-content-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+  max-width: 900px;
+  width: 90%;
+  z-index: 10;
+}
+
+.hero-name-container {
+  position: relative;
+}
+
+.hero-name-line {
+  display: flex;
+  align-items: baseline;
+  line-height: 0.8;
+}
+
+.hero-name-line--rautela {
+  margin-left: 4rem;
+  margin-top: 0.5rem;
+}
+
+.name-stylized {
+  font-family: var(--font-serif), serif;
+  font-size: clamp(3.5rem, 10vw, 9rem);
+  text-transform: uppercase;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 0.85;
+  color: #ffffff;
+}
+
+.name-regular {
+  font-family: var(--font-serif), serif;
+  font-size: clamp(3.5rem, 10vw, 9rem);
+  text-transform: uppercase;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 0.85;
+  color: #ffffff;
+}
+
+.hero-bio-text {
+  position: absolute;
+  top: 1rem;
+  left: 100%;
+  margin-left: 3rem;
+  max-width: 320px;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  opacity: 0.8;
+  white-space: normal;
+  color: #ffffff;
+}
+
+/* Navigation Dock */
+.nav-dock-container {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(30, 30, 30, 0.65); /* Elegant dark glass */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 0.6rem 0.6rem 0.6rem 1.5rem; /* Adjusted padding for square shape */
+  border-radius: 0; /* Square corners */
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  z-index: 1000;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.nav-dock-profile {
+  display: none; /* Removed the profile image to keep the dock incredibly clean and minimalist */
+}
+
+.nav-dock-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.nav-dock-link {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.6);
+  position: relative;
+  transition: color 0.3s ease;
+  padding: 0.2rem 0;
+}
+
+.nav-dock-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0%;
+  height: 1px;
+  background-color: #ffffff;
+  transition: width 0.3s ease;
+}
+
+.nav-dock-link:hover {
+  color: #ffffff;
+}
+
+.nav-dock-link:hover::after {
+  width: 100%;
+}
+
+.nav-dock-connect {
+  background: #ffffff;
+  color: #000000;
+  padding: 0.8rem 1.5rem;
+  border-radius: 0; /* Square corners */
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.nav-dock-connect:hover {
+  background: #f0f0f0;
+  transform: scale(1.02);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+.hero-rocket {
+  position: absolute;
+  bottom: 5vh;
+  right: 10vw;
+  width: 80px;
+  opacity: 0.6;
+  z-index: 5;
+  mix-blend-mode: screen;
+}
+
+@media (max-width: 768px) {
+  .hero-bio-text {
+    position: relative;
+    left: 0;
+    margin-left: 0;
+    margin-top: 2rem;
+    max-width: 100%;
+  }
+  .hero-name-line--rautela {
+    margin-left: 2rem;
+  }
+  .nav-dock-container {
+    width: max-content;
+    max-width: 95vw;
+    padding: 0.4rem 0.4rem 0.4rem 1rem;
+    gap: 1rem;
+    bottom: 1.5rem;
+  }
+  .nav-dock-links {
+    gap: 0.75rem;
+  }
+  .nav-dock-link {
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+  }
+  .nav-dock-connect {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.65rem;
+  }
+}
+
+/* Custom scrollbar for a polished look */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* ── Custom Floating Cursor ───────────────────────── */
+
+/* Hide default cursor on non-touch devices */
+@media (pointer: fine) {
+
+  *,
+  *::before,
+  *::after {
+    cursor: none !important;
+  }
+}
+
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  background: #ffffff;
+  pointer-events: none;
+  z-index: 99999;
+  opacity: 0;
+  /* hidden until first mousemove */
+  will-change: transform;
+
+  /* Webflow-style color inversion — white + difference = inverts everything underneath */
+  mix-blend-mode: difference;
+
+  /* offset so the visual center aligns with pointer */
+  margin-top: -4px;
+  margin-left: -4px;
+
+  /* smooth shape & size transitions for hover morph */
+  transition:
+    width 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+    height 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+    margin 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+    background 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+    border-radius 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+    border 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+    opacity 0.2s ease;
+}
+
+/* Hover state — morph to larger inverted circle */
+.custom-cursor.cursor--hover {
+  width: 40px;
+  height: 40px;
+  margin-top: -20px;
+  margin-left: -20px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+/* Hide custom cursor on touch / mobile */
+@media (pointer: coarse) {
+  .custom-cursor {
+    display: none !important;
+  }
+}
+
+/* ── Sticky Reveal Section ────────────────────────── */
+
+.sticky-reveal-wrapper {
+  position: relative;
+  height: 450vh;
+  width: 100%;
+  margin-top: -250vh;
+}
+
+.sticky-reveal-inner {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  background: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Subtle film-grain texture overlay */
+.sticky-reveal-grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.sticky-reveal-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 1.5rem;
+  max-width: 56rem;
+}
+
+.sticky-reveal-heading {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  line-height: 1.15;
+  color: #ededed;
+  letter-spacing: -0.02em;
+  will-change: opacity, transform;
+  transition: none;
+  /* driven by JS inline styles */
+}
+
+.sticky-reveal-heading-accent {
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.sticky-reveal-subtext {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: clamp(0.85rem, 1.2vw, 1.1rem);
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 2rem;
+  letter-spacing: 0.04em;
+  will-change: opacity, transform;
+  transition:
+    opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+    transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Thin vertical progress bar on the right edge */
+.sticky-reveal-progress {
+  position: absolute;
+  right: 2rem;
+  top: 15%;
+  bottom: 15%;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 1px;
+  z-index: 3;
+}
+
+.sticky-reveal-progress-bar {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 1px;
+  transform-origin: top center;
+  will-change: transform;
+}
+
+/* Mobile tweaks */
+@media (max-width: 640px) {
+  .sticky-reveal-progress {
+    right: 1rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   BOX EXPANSION — 4-phase scroll-driven reveal
+   Phase 1: Ghost text on grey (0–15%)
+   Phase 2: Black box expands (15–65%)
+   Phase 3: Full panel + blue strips + "keep Scrolling" (65–85%)
+   Phase 4: Panel slides up, reveals content (85–100%)
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Scroll wrapper: creates scroll room for the fixed elements ── */
+.box-expand-wrapper {
+  position: relative;
+  height: 500vh;
+  /* ← tweak: total scroll distance for all 4 phases */
+  background: #ffffff;
+  /* pure white page background */
+}
+
+/* ── Phase 1: Ghost text floating on grey ─────────────────────── */
+.ghost-text {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 50;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.5rem; /* Matches expand-box start size */
+  font-weight: 400;
+  color: rgba(0, 0, 0, 1); /* Full black for high visibility */
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 768px) {
+  .ghost-text {
+    font-size: 0.8rem; /* Matches expand-box mobile start size */
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* ── Phase 2-4: Expanding black box ───────────────────────────── */
+.expand-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 55;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  will-change: width, height, transform;
+  opacity: 0;
+  visibility: hidden;
+  width: 320px;
+  height: 70px;
+}
+
+@media (max-width: 768px) {
+  .expand-box {
+    width: 220px;
+    height: 56px;
+  }
+}
+
+
+
+/* ── Text inside the expanding box ────────────────────────────── */
+.expand-box-text {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  user-select: none;
+  /* Viewport for text scroll effect */
+  height: 6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.expand-line-1 {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #ffffff;
+  opacity: 1;
+  /* JS controls */
+  line-height: 1;
+  letter-spacing: 0;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.expand-line-2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* Center + JS will add translateY on top */
+  transform: translate(-50%, -50%);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-weight: 400;
+  color: #ffffff;
+  opacity: 0;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .expand-line-2 {
+    font-size: clamp(1rem, 5vw, 1.6rem);
+    letter-spacing: 0.05em;
+  }
+}
+
+/* ── Reduced motion: skip everything ──────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .ghost-text {
+    visibility: hidden !important;
+  }
+
+  .expand-box {
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+}
+
+/* ── Electric Blue Glow on Section Entry ──────────── */
+
+.glow-entry {
+  box-shadow:
+    0 0 0 3px #1a8cff,
+    0 0 40px 4px rgba(26, 140, 255, 0.4),
+    0 0 80px 8px rgba(26, 140, 255, 0.15),
+    inset 0 0 30px 0 rgba(26, 140, 255, 0.06);
+}
+
+.glow-entry--fade {
+  box-shadow:
+    0 0 0 0px transparent,
+    0 0 0px 0px transparent,
+    0 0 0px 0px transparent,
+    inset 0 0 0px 0 transparent;
+  transition: box-shadow 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* ── Parallax Showcase ────────────────────────────── */
+
+.parallax-showcase {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: #0a0a0a;
+  overflow: hidden;
+}
+
+.parallax-showcase__inner {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Layers ─────────────────────────────────────── */
+
+.parallax-layer {
+  position: absolute;
+  will-change: transform, opacity;
+}
+
+/* Center portrait */
+.parallax-layer--center {
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.parallax-img--center {
+  width: clamp(280px, 35vw, 500px);
+  height: auto;
+  aspect-ratio: 8 / 11;
+  object-fit: cover;
+  border-radius: 1rem;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+/* Center overlay text */
+.parallax-center-overlay {
+  position: absolute;
+  bottom: -3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.parallax-center-label {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.parallax-center-title {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: -0.02em;
+}
+
+/* Side images */
+.parallax-layer--left {
+  z-index: 1;
+  left: 0;
+  top: 50%;
+  transform-origin: center center;
+}
+
+.parallax-layer--right {
+  z-index: 1;
+  right: 0;
+  top: 50%;
+  transform-origin: center center;
+}
+
+.parallax-img--side {
+  width: clamp(160px, 22vw, 320px);
+  height: auto;
+  aspect-ratio: 5 / 7;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  margin-top: -50%;
+}
+
+/* Ambient glow behind center image */
+.parallax-glow {
+  position: absolute;
+  z-index: 0;
+  width: 50vw;
+  height: 50vw;
+  max-width: 600px;
+  max-height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(26, 140, 255, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Mobile: reduce side image sizes & hide glow */
+@media (max-width: 640px) {
+  .parallax-img--side {
+    width: 120px;
+  }
+
+  .parallax-img--center {
+    width: 220px;
+  }
+
+  .parallax-glow {
+    display: none;
+  }
+
+  .parallax-center-overlay {
+    bottom: -2.5rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DATA-SCROLL EFFECTS — must be AFTER @import "tailwindcss"
+   Using !important to beat Tailwind's @layer resets
+   ═════════════════════════════════════════════════════�[data-glow="entry"].glow-fade {
+  box-shadow:
+    0 0 0 0px transparent,
+    0 0 0px 0px transparent,
+    0 0 0px 0px transparent,
+    inset 0 0 0px 0 transparent !important;
+  transition: box-shadow 0.8s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+/* ── About Section: 4-Layer Scroll Reveal ────────────────── */
+.about-section {
+  position: relative;
+  width: 100%;
+  min-height: 150vh; /* Reduced from 250vh for a shorter pause */
+  margin-top: -100vh; /* Restored to overlap ExpandBox and eliminate dead scroll */
+  background: #000000;
+  overflow: hidden;
+  z-index: 60; /* Higher than ExpandBox (55) to act as a black curtain over it */
+}
+
+.about-inner {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* Layer 1: Portrait */
+.about-portrait {
+  position: relative;
+  z-index: 2;
+  width: 340px;
+  height: 420px;
+  overflow: hidden;
+  will-change: transform;
+}
+
+@media (max-width: 768px) {
+  .about-portrait {
+    width: 180px; /* Increased from 140px */
+    height: 240px; /* Increased from 180px */
+  }
+}
+
+.about-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Layer 2 & 3: Hands */
+.hand {
+  position: absolute;
+  top: 50%;
+  width: 380px;
+  z-index: 1;
+  will-change: transform;
+}
+
+.hand-left {
+  left: 0;
+}
+
+.hand-right {
+  right: 0;
+}
+
+@media (max-width: 768px) {
+  .hand {
+    display: none; /* Hide hands on mobile to reduce clutter */
+  }
+}
+
+
+.hand img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── Center Composition ──────────────────────────── */
+.about-center-composition {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem; /* Increased space between portrait and bio */
+  z-index: 5;
+  width: 100%;
+  max-width: 720px;
+  padding: 0 2rem;
+}
+
+/* ── Bio Text Styles ──────────────────────────────── */
+.about-bio {
+  position: relative;
+  z-index: 15;
+  text-align: left;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .about-section {
+    min-height: auto;
+  }
+  .about-inner {
+    position: relative;
+    height: auto;
+    min-height: 100vh;
+    padding: 15vh 0; /* Natural scrolling padding */
+  }
+  .about-center-composition {
+    gap: 2.5rem; /* Increased space between portrait and bio on mobile */
+    padding: 0 1.5rem; /* Slightly more edge breathing room */
+    align-items: center; /* Re-center portrait */
+  }
+  .about-bio {
+    margin-top: 0;
+    padding: 0;
+  }
+}
+
+.bio-line {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 0.95rem; /* Slightly smaller to fit everything */
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 1rem; /* Tighter gap */
+  opacity: 0;
+  will-change: opacity, transform;
+  transition:
+    opacity 1200ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (max-width: 768px) {
+  .bio-line {
+    font-size: 0.85rem; /* Smaller font for mobile */
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+  }
+}
+
+.bio-line strong {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.bio-line.bio-revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.bio-line.dim-last {
+  opacity: 0;
+}
+
+.bio-line.dim-last.bio-revealed {
+  opacity: 0.7;
+}
+
+.bio-line .ghost {
+  opacity: 0.45;
+  display: inline; /* Keep inline with the paragraph */
+  margin-left: 0.25rem;
+}
+
+/* ── Cleanup will-change after animation ──────────── */
+[data-scroll].revealed,
+[data-scroll]>*.revealed {
+  will-change: auto;
+}
+
+/* ── Reduced motion: disable everything ───────────── */
+@media (prefers-reduced-motion: reduce) {
+  [data-scroll="fade-up"]>*,
+  [data-scroll="scale-in"] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  [data-glow="entry"] {
+    box-shadow: none !important;
+    transition: none !important;
+  }
+
+  .bio-line {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
