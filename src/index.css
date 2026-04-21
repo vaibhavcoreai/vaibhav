@@ -202,6 +202,62 @@
   mix-blend-mode: screen;
 }
 
+/* ── Keep Scrolling Indicator ─────────────────────── */
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 9rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  z-index: 10;
+}
+
+.hero-scroll-mouse {
+  width: 22px;
+  height: 36px;
+  border: 1.5px solid #000000;
+  border-radius: 12px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-scroll-mouse-dot {
+  width: 3px;
+  height: 6px;
+  background: #000000;
+  border-radius: 2px;
+  position: absolute;
+  top: 6px;
+  animation: mouseScrollDot 2s ease-in-out infinite;
+}
+
+.hero-scroll-text {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #000000;
+}
+
+@keyframes mouseScrollDot {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 @media (max-width: 768px) {
   .hero-bio-text {
     position: relative;

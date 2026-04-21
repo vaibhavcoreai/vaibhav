@@ -97,6 +97,19 @@ export default function Hero() {
           className="w-full h-auto mix-blend-screen"
         />
       </motion.div>
+
+      {/* Bottom Center: Keep Scrolling Indicator */}
+      <motion.div
+        className="hero-scroll-indicator"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.2, delay: 2 }}
+      >
+        <div className="hero-scroll-mouse">
+          <div className="hero-scroll-mouse-dot" />
+        </div>
+        <span className="hero-scroll-text">Keep Scrolling</span>
+      </motion.div>
     </section>
   );
 }
