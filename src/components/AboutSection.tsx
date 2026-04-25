@@ -1,4 +1,5 @@
 import { useEffect, useRef, useCallback } from 'react';
+import MetaBalls from './MetaBalls';
 
 /**
  * AboutSection — Parashux-style 4-layer scroll reveal
@@ -120,6 +121,9 @@ export default function AboutSection() {
             <p className="bio-line bio-revealed">
               Outside of academics, I’m shaped by <strong>music, literature</strong>, and quiet observation. Flute, sitar, harmonium, piano—different forms, same expression. Drawn to nature and human philosophy, I’m exploring the intersection of <strong>AI, creativity, and human behavior</strong>, one step at a time.
             </p>
+            <div className="mt-12 w-full h-64 relative">
+              <MetaBalls color="#ffffff" cursorBallColor="#ffffff" speed={0.25} ballCount={18} animationSize={40} cursorBallSize={3} enableTransparency={true} />
+            </div>
           </div>
         </div>
 
