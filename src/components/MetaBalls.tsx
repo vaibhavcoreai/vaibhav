@@ -132,7 +132,7 @@ const MetaBalls: React.FC<MetaBallsProps> = ({
     const container = containerRef.current;
     if (!container) return;
 
-    const dpr = 1;
+    const dpr = window.devicePixelRatio || 1;
     const renderer = new Renderer({
       dpr,
       alpha: true,
@@ -191,10 +191,10 @@ const MetaBalls: React.FC<MetaBallsProps> = ({
       const h1 = hash31(idx);
       const st = h1[0] * (2 * Math.PI);
       const dtFactor = 0.1 * Math.PI + h1[1] * (0.4 * Math.PI - 0.1 * Math.PI);
-      const baseScale = 5.0 + h1[1] * (10.0 - 5.0);
+      const baseScale = 15.0 + h1[1] * (30.0 - 15.0);
       const h2 = hash33(h1);
       const toggle = Math.floor(h2[0] * 2.0);
-      const radiusVal = 0.5 + h2[2] * (2.0 - 0.5);
+      const radiusVal = 1.5 + h2[2] * (6.0 - 1.5);
       ballParams.push({ st, dtFactor, baseScale, toggle, radius: radiusVal });
     }
 
