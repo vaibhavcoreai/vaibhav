@@ -10,10 +10,13 @@ import { useEffect, useRef, useState } from 'react';
  */
 export default function StickyReveal() {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(0);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const sub1Ref = useRef<HTMLParagraphElement>(null);
+  const sub2Ref = useRef<HTMLParagraphElement>(null);
+  const sub3Ref = useRef<HTMLParagraphElement>(null);
+  const progressBarRef = useRef<HTMLDivElement>(null);
+
   const [isVisible, setIsVisible] = useState(false);
-  const [showSubtext, setShowSubtext] = useState(false);
-  const subtextTimer = useRef<ReturnType<typeof setTimeout>>();
 
   /* ── IntersectionObserver: activate scroll tracking only when in view ── */
   useEffect(() => {
@@ -29,7 +32,7 @@ export default function StickyReveal() {
     return () => observer.disconnect();
   }, []);
 
-  /* ── Scroll listener: compute progress through the sticky zone ── */
+  /* ── Scroll listener: compute progress and update styles directly ── */
   useEffect(() => {
     if (!isVisible) return;
 
@@ -41,20 +44,38 @@ export default function StickyReveal() {
       const wrapperHeight = wrapper.offsetHeight;
       const viewportHeight = window.innerHeight;
 
-      // Scrollable distance = wrapper height minus the sticky viewport
       const scrollableDistance = wrapperHeight - viewportHeight;
-
-      // How far we've scrolled into the wrapper (0 = top edge at viewport top)
       const scrolled = -rect.top;
 
-      // Sync with ShrinkBox: Wait 150vh before starting our text animations
       const waitDistance = 1.5 * viewportHeight;
       const effectiveScrolled = Math.max(0, scrolled - waitDistance);
       const effectiveScrollable = Math.max(1, scrollableDistance - waitDistance);
 
-      // Clamp progress to 0–1
       const p = Math.max(0, Math.min(1, effectiveScrolled / effectiveScrollable));
-      setProgress(p);
+
+      // Update Heading
+      if (headingRef.current) {
+        const textScale = 0.96 + p * 0.04;
+        headingRef.current.style.opacity = String(p);
+        headingRef.current.style.transform = `scale(${textScale})`;
+      }
+
+      // Update Subtexts
+      const updateSub = (ref: React.RefObject<HTMLParagraphElement>, threshold: number) => {
+        if (!ref.current) return;
+        const active = p > threshold;
+        ref.current.style.opacity = active ? '1' : '0';
+        ref.current.style.transform = active ? 'translateY(0)' : 'translateY(20px)';
+      };
+
+      updateSub(sub1Ref, 0.3);
+      updateSub(sub2Ref, 0.6);
+      updateSub(sub3Ref, 0.85);
+
+      // Update Progress Bar
+      if (progressBarRef.current) {
+        progressBarRef.current.style.transform = `scaleY(${p})`;
+      }
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -62,35 +83,16 @@ export default function StickyReveal() {
     return () => window.removeEventListener('scroll', onScroll);
   }, [isVisible]);
 
-  /* ── Trigger staggered text reveals based on scroll progress ── */
-  const [showSub1, setShowSub1] = useState(false);
-  const [showSub2, setShowSub2] = useState(false);
-  const [showSub3, setShowSub3] = useState(false);
-
-  useEffect(() => {
-    setShowSub1(progress > 0.3);
-    setShowSub2(progress > 0.6);
-    setShowSub3(progress > 0.85);
-  }, [progress]);
-
-  // Map progress 0→1 to opacity 0→1 so it's completely hidden during ShrinkBox
-  const textOpacity = progress;
-  // Subtle scale: 0.96 → 1
-  const textScale = 0.96 + progress * 0.04;
-
   return (
     <div ref={wrapperRef} id="about" className="sticky-reveal-wrapper">
       <div className="sticky-reveal-inner">
-        {/* Subtle grain overlay */}
         <div className="sticky-reveal-grain" />
 
         <div className="sticky-reveal-content max-w-4xl mx-auto px-6 text-center flex flex-col items-center justify-center gap-12">
           <h2
+            ref={headingRef}
             className="sticky-reveal-heading"
-            style={{
-              opacity: textOpacity,
-              transform: `scale(${textScale})`,
-            }}
+            style={{ willChange: 'opacity, transform' }}
           >
             I don't just build models —
             <br />
@@ -99,29 +101,35 @@ export default function StickyReveal() {
 
           <div className="flex flex-col gap-8 text-white/80 font-serif text-2xl md:text-3xl font-light">
             <p
+              ref={sub1Ref}
               style={{
-                opacity: showSub1 ? 1 : 0,
-                transform: showSub1 ? 'translateY(0)' : 'translateY(20px)',
                 transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+                willChange: 'opacity, transform',
+                opacity: 0,
+                transform: 'translateY(20px)'
               }}
             >
               Blending logic, aesthetics, and raw data into seamless digital experiences.
             </p>
             <p
+              ref={sub2Ref}
               style={{
-                opacity: showSub2 ? 1 : 0,
-                transform: showSub2 ? 'translateY(0)' : 'translateY(20px)',
                 transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+                willChange: 'opacity, transform',
+                opacity: 0,
+                transform: 'translateY(20px)'
               }}
             >
               Because beautiful design and robust architecture should never be mutually exclusive.
             </p>
             <p
+              ref={sub3Ref}
               className="font-mono text-sm md:text-base uppercase tracking-widest text-[#a3a3a3]"
               style={{
-                opacity: showSub3 ? 1 : 0,
-                transform: showSub3 ? 'translateY(0)' : 'translateY(20px)',
                 transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+                willChange: 'opacity, transform',
+                opacity: 0,
+                transform: 'translateY(20px)'
               }}
             >
               Every pixel placed with purpose. Every algorithm built to scale.
@@ -129,11 +137,11 @@ export default function StickyReveal() {
           </div>
         </div>
 
-        {/* Scroll progress indicator */}
         <div className="sticky-reveal-progress">
           <div
+            ref={progressBarRef}
             className="sticky-reveal-progress-bar"
-            style={{ transform: `scaleY(${progress})` }}
+            style={{ willChange: 'transform' }}
           />
         </div>
       </div>

@@ -85,8 +85,24 @@ export default function AboutSection() {
       return;
     }
 
-    rafId.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(rafId.current);
+    let observer: IntersectionObserver;
+    const section = sectionRef.current;
+    
+    if (section) {
+      observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          rafId.current = requestAnimationFrame(animate);
+        } else {
+          cancelAnimationFrame(rafId.current);
+        }
+      }, { threshold: 0 });
+      observer.observe(section);
+    }
+
+    return () => {
+      if (observer) observer.disconnect();
+      cancelAnimationFrame(rafId.current);
+    };
   }, [animate]);
 
   return (

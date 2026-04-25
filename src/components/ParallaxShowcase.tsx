@@ -19,8 +19,10 @@ const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(ma
 
 export default function ParallaxShowcase() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(0);
-  const rafId = useRef(0);
+  const centerLayerRef = useRef<HTMLDivElement>(null);
+  const leftLayerRef = useRef<HTMLDivElement>(null);
+  const rightLayerRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
 
   const onScroll = useCallback(() => {
     const section = sectionRef.current;
@@ -30,17 +32,43 @@ export default function ParallaxShowcase() {
     const sectionHeight = section.offsetHeight;
     const viewportHeight = window.innerHeight;
 
-    // progress goes 0→1 as the section scrolls through the viewport
     const sectionTop = rect.top;
     const raw = (viewportHeight - sectionTop) / (sectionHeight + viewportHeight);
-    setProgress(clamp(raw, 0, 1));
+    const progress = clamp(raw, 0, 1);
+
+    // Center transforms
+    const centerScale = lerp(0.85, 1.0, progress);
+    const centerY = lerp(20, 0, progress);
+    const centerOpacity = clamp(progress * 2.5, 0, 1);
+
+    if (centerLayerRef.current) {
+      centerLayerRef.current.style.transform = `scale(${centerScale}) translateY(${centerY}px)`;
+      centerLayerRef.current.style.opacity = String(centerOpacity);
+    }
+
+    // Side transforms
+    const sideProgress = clamp(progress / (1 - PARALLAX_FACTOR), 0, 1);
+    const leftX = lerp(-120, -10, sideProgress);
+    const rightX = lerp(120, 10, sideProgress);
+    const sideOpacity = clamp(progress * 3, 0, 1);
+
+    if (leftLayerRef.current) {
+      leftLayerRef.current.style.transform = `translateX(${leftX}%)`;
+      leftLayerRef.current.style.opacity = String(sideOpacity);
+    }
+    if (rightLayerRef.current) {
+      rightLayerRef.current.style.transform = `translateX(${rightX}%)`;
+      rightLayerRef.current.style.opacity = String(sideOpacity);
+    }
+    if (glowRef.current) {
+      glowRef.current.style.opacity = String(centerOpacity * 0.6);
+    }
   }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    // Gate with IntersectionObserver for performance
     let scrollBound = false;
     const attachScroll = () => {
       if (!scrollBound) {
@@ -69,36 +97,17 @@ export default function ParallaxShowcase() {
     return () => {
       observer.disconnect();
       detachScroll();
-      cancelAnimationFrame(rafId.current);
     };
   }, [onScroll]);
-
-  // ── Layer transforms ──────────────────────────
-  // Center portrait: scale 0.85 → 1.0 with slight upward drift
-  const centerScale = lerp(0.85, 1.0, progress);
-  const centerY = lerp(20, 0, progress); // subtle upward drift
-
-  // Side elements: use their own parallax speed
-  // They complete -120%→-10% / 120%→10% mapped through the slower factor
-  // Expand effective progress so sides finish their journey by the time section exits
-  const sideProgress = clamp(progress / (1 - PARALLAX_FACTOR), 0, 1);
-  const leftX = lerp(-120, -10, sideProgress);
-  const rightX = lerp(120, 10, sideProgress);
-
-  // Opacity: fade in as they enter
-  const sideOpacity = clamp(progress * 3, 0, 1);
-  const centerOpacity = clamp(progress * 2.5, 0, 1);
 
   return (
     <div ref={sectionRef} id="playground" className="parallax-showcase">
       <div className="parallax-showcase__inner">
         {/* ── Layer 1: Center portrait ────────────── */}
         <div
+          ref={centerLayerRef}
           className="parallax-layer parallax-layer--center"
-          style={{
-            transform: `scale(${centerScale}) translateY(${centerY}px)`,
-            opacity: centerOpacity,
-          }}
+          style={{ willChange: 'transform, opacity' }}
         >
           <img
             src="/myart/sitar.jpg"
@@ -106,7 +115,6 @@ export default function ParallaxShowcase() {
             className="parallax-img parallax-img--center"
             referrerPolicy="no-referrer"
           />
-          {/* Overlay text on center image */}
           <div className="parallax-center-overlay">
             <span className="parallax-center-label">Musical</span>
             <span className="parallax-center-title">Roots</span>
@@ -115,11 +123,9 @@ export default function ParallaxShowcase() {
 
         {/* ── Layer 2: Left element ───────────────── */}
         <div
+          ref={leftLayerRef}
           className="parallax-layer parallax-layer--left"
-          style={{
-            transform: `translateX(${leftX}%)`,
-            opacity: sideOpacity,
-          }}
+          style={{ willChange: 'transform, opacity' }}
         >
           <img
             src="/myart/flute.jpg"
@@ -131,11 +137,9 @@ export default function ParallaxShowcase() {
 
         {/* ── Layer 3: Right element ──────────────── */}
         <div
+          ref={rightLayerRef}
           className="parallax-layer parallax-layer--right"
-          style={{
-            transform: `translateX(${rightX}%)`,
-            opacity: sideOpacity,
-          }}
+          style={{ willChange: 'transform, opacity' }}
         >
           <img
             src="/myart/harmonium.jpg"
@@ -147,8 +151,9 @@ export default function ParallaxShowcase() {
 
         {/* Ambient glow behind center image */}
         <div
+          ref={glowRef}
           className="parallax-glow"
-          style={{ opacity: centerOpacity * 0.6 }}
+          style={{ willChange: 'opacity' }}
         />
       </div>
     </div>

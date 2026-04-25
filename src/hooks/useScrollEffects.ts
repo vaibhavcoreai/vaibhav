@@ -31,17 +31,22 @@ export function useScrollEffects() {
     }
 
     // ── Lenis smooth scroll ────────────────────────────────────
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    });
-    lenisRef.current = lenis;
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+    
+    let lenis: Lenis | null = null;
+    if (!isMobile) {
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      });
+      lenisRef.current = lenis;
 
-    function raf(time: number) {
-      lenis.raf(time);
+      const raf = (time: number) => {
+        lenis?.raf(time);
+        rafRef.current = requestAnimationFrame(raf);
+      };
       rafRef.current = requestAnimationFrame(raf);
     }
-    rafRef.current = requestAnimationFrame(raf);
 
     // ── fade-up observer ───────────────────────────────────────
     const fadeUpObserver = new IntersectionObserver(
@@ -118,7 +123,9 @@ export function useScrollEffects() {
       clearTimeout(scanTimer);
       if (cardTimer) clearTimeout(cardTimer);
       cancelAnimationFrame(rafRef.current);
-      lenis.destroy();
+      if (lenis) {
+        lenis.destroy();
+      }
       lenisRef.current = null;
       fadeUpObserver.disconnect();
       scaleInObserver.disconnect();

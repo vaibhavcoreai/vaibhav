@@ -132,11 +132,14 @@ const MetaBalls: React.FC<MetaBallsProps> = ({
     const container = containerRef.current;
     if (!container) return;
 
-    const dpr = window.devicePixelRatio || 1;
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+    const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2.0);
+    
     const renderer = new Renderer({
       dpr,
       alpha: true,
-      premultipliedAlpha: false
+      premultipliedAlpha: false,
+      powerPreference: 'high-performance'
     });
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, enableTransparency ? 0 : 1);
@@ -184,7 +187,7 @@ const MetaBalls: React.FC<MetaBallsProps> = ({
     mesh.setParent(scene);
 
     const maxBalls = 50;
-    const effectiveBallCount = Math.min(ballCount, maxBalls);
+    const effectiveBallCount = isMobile ? Math.min(ballCount, 12) : Math.min(ballCount, maxBalls);
     const ballParams: BallParams[] = [];
     for (let i = 0; i < effectiveBallCount; i++) {
       const idx = i + 1;
@@ -235,10 +238,21 @@ const MetaBalls: React.FC<MetaBallsProps> = ({
     container.addEventListener('pointerenter', onPointerEnter);
     container.addEventListener('pointerleave', onPointerLeave);
 
+    let isInView = false;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isInView = entry.isIntersecting;
+      },
+      { threshold: 0 }
+    );
+    observer.observe(container);
+
     const startTime = performance.now();
     let animationFrameId: number;
     function update(t: number) {
       animationFrameId = requestAnimationFrame(update);
+      if (!isInView) return;
+
       const elapsed = (t - startTime) * 0.001;
       program.uniforms.iTime.value = elapsed;
 
@@ -279,7 +293,10 @@ const MetaBalls: React.FC<MetaBallsProps> = ({
       container.removeEventListener('pointermove', onPointerMove);
       container.removeEventListener('pointerenter', onPointerEnter);
       container.removeEventListener('pointerleave', onPointerLeave);
-      container.removeChild(gl.canvas);
+      observer.disconnect();
+      if (container.contains(gl.canvas)) {
+        container.removeChild(gl.canvas);
+      }
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
   }, [
