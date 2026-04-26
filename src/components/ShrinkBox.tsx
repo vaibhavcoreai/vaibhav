@@ -7,6 +7,8 @@ export default function ShrinkBox() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
+  const scrollHintRef = useRef<HTMLDivElement>(null);
+  const darkScrollHintRef = useRef<HTMLDivElement>(null);
 
   const rafId = useRef(0);
 
@@ -49,7 +51,27 @@ export default function ShrinkBox() {
       // ════════════════════════════════════════════════════════════
       const pText = remap(p, 0, 0.3);
       textRef.current.style.opacity = String(1 - pText);
-      textRef.current.style.transform = `translate(-50%, -50%) scale(${1 - pText * 0.2})`;
+      textRef.current.style.transform = `scale(${1 - pText * 0.2})`;
+
+      // ════════════════════════════════════════════════════════════
+      // SCROLL HINT: Fades out quickly as user starts scrolling (p: 0 → 0.15)
+      // ════════════════════════════════════════════════════════════
+      if (scrollHintRef.current) {
+        const pHint = remap(p, 0, 0.15);
+        scrollHintRef.current.style.opacity = String(1 - pHint);
+        scrollHintRef.current.style.transform = `translateY(${pHint * -12}px)`;
+      }
+
+      // ════════════════════════════════════════════════════════════
+      // DARK SCROLL HINT: Visible in the black surrounding area (p: 0.3 → 0.75)
+      // ════════════════════════════════════════════════════════════
+      if (darkScrollHintRef.current) {
+        const pDarkIn  = remap(p, 0.3, 0.45);   // fade in
+        const pDarkOut = remap(p, 0.6, 0.75);   // fade out
+        const darkOpacity = pDarkIn * (1 - pDarkOut);
+        darkScrollHintRef.current.style.opacity = String(darkOpacity);
+        darkScrollHintRef.current.style.transform = `translateX(-50%) translateY(${(1 - pDarkIn) * 10}px)`;
+      }
 
       // ════════════════════════════════════════════════════════════
       // PHASE 3: Orb fades out into the dark (p: 0.7 → 0.95)
@@ -124,13 +146,46 @@ export default function ShrinkBox() {
         className="bg-[#f8f9fa] overflow-hidden"
         style={{ width: '100vw', height: '100vh', left: '50%', transform: 'translateX(-50%)', borderRadius: '0px' }}
       >
-        <p 
-          ref={textRef} 
-          className="font-serif italic text-black/60 whitespace-nowrap tracking-wide absolute top-1/2 left-1/2"
-          style={{ transform: 'translate(-50%, -50%)', fontSize: '2.5rem' }}
+        {/* Centered group: text + scroll hint stacked */}
+        <div
+          className="absolute top-1/2 left-1/2 flex flex-col items-center gap-6 pointer-events-none"
+          style={{ transform: 'translate(-50%, -50%)' }}
         >
-          Beyond the surface.
-        </p>
+          <p
+            ref={textRef}
+            className="font-serif italic text-black whitespace-nowrap tracking-wide"
+            style={{ fontSize: '2.5rem' }}
+          >
+            Beyond the surface.
+          </p>
+
+          {/* Keep Scrolling Hint — white box (light bg) */}
+          <div
+            ref={scrollHintRef}
+            className="flex flex-col items-center gap-3 pointer-events-none"
+          >
+            <span className="text-black uppercase tracking-[0.25em] text-xs font-medium" style={{ fontFamily: 'inherit' }}>
+              Keep scrolling
+            </span>
+            <div className="hero-scroll-mouse" style={{ borderColor: '#000000' }}>
+              <div className="hero-scroll-mouse-dot" style={{ background: '#000000' }} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Keep Scrolling Hint — dark / black portion (white text, fixed to viewport) */}
+      <div
+        ref={darkScrollHintRef}
+        className="fixed bottom-10 left-1/2 flex flex-col items-center gap-3 pointer-events-none z-40"
+        style={{ transform: 'translateX(-50%)', opacity: 0 }}
+      >
+        <span className="text-white uppercase tracking-[0.25em] text-xs font-medium" style={{ fontFamily: 'inherit' }}>
+          Keep scrolling
+        </span>
+        <div className="hero-scroll-mouse" style={{ borderColor: '#ffffff' }}>
+          <div className="hero-scroll-mouse-dot" style={{ background: '#ffffff' }} />
+        </div>
       </div>
     </div>
   );
