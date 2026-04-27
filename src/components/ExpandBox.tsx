@@ -9,6 +9,7 @@ export default function ExpandBox() {
 
   // Elements driven by scroll
   const ghostTextRef = useRef<HTMLDivElement>(null);      // Phase 1: ghost text on grey
+  const scrollHintRef = useRef<HTMLDivElement>(null);     // Phase 1: keep-scrolling indicator
   const boxRef = useRef<HTMLDivElement>(null);             // Phase 2-4: expanding black box
   const boxTextRef = useRef<HTMLParagraphElement>(null);   // "just a data scientist?" inside box
   const line2Ref = useRef<HTMLParagraphElement>(null);     // "keep Scrolling" inside box
@@ -38,6 +39,17 @@ export default function ExpandBox() {
       const isInPhase1 = p < 0.15;
       
       ghostTextRef.current.style.visibility = (hasStarted && isInPhase1) ? 'visible' : 'hidden';
+
+      // ── Scroll hint: fades in at p=0, fades out with ghost text ──
+      if (scrollHintRef.current) {
+        const hintOp = 1 - p1;  // mirrors ghostOp — vanishes with ghost text
+        scrollHintRef.current.style.opacity = String(hasStarted ? hintOp : 0);
+        // Base offset: 12px (half ghost text) + 48px gap = 60px below viewport centre
+        // As phase 1 exits, nudge slightly upward (-12px) to match ghost text fade
+        const nudge = p1 * -12;
+        scrollHintRef.current.style.transform = `translate(-50%, calc(60px + ${nudge}px))`;
+        scrollHintRef.current.style.visibility = (hasStarted && isInPhase1) ? 'visible' : 'hidden';
+      }
     }
 
     // ════════════════════════════════════════════════════════════
@@ -157,6 +169,23 @@ export default function ExpandBox() {
       {/* ── PHASE 1: Ghost text floating on grey ──────────────── */}
       <div ref={ghostTextRef} className="ghost-text">
         just Data Science?
+      </div>
+
+      {/* ── PHASE 1: Keep Scrolling hint — anchored just below ghost text ── */}
+      <div
+        ref={scrollHintRef}
+        className="fixed top-1/2 left-1/2 flex flex-col items-center gap-3 pointer-events-none z-40"
+        style={{ transform: 'translate(-50%, 60px)', opacity: 0, visibility: 'hidden' }}
+      >
+        <span
+          className="text-black uppercase tracking-[0.25em] text-xs font-medium"
+          style={{ fontFamily: 'inherit' }}
+        >
+          Keep scrolling
+        </span>
+        <div className="hero-scroll-mouse" style={{ borderColor: '#000000' }}>
+          <div className="hero-scroll-mouse-dot" style={{ background: '#000000' }} />
+        </div>
       </div>
 
       {/* ── PHASE 2-4: Expanding black box ────────────────────── */}
