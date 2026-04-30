@@ -522,6 +522,7 @@ body.is-loading {
   line-height: 1;
   letter-spacing: 0;
   white-space: nowrap;
+  visibility: hidden;
   pointer-events: none;
   user-select: none;
 }
