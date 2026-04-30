@@ -6,9 +6,6 @@ export default function Hero() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    audioRef.current = new Audio('/background.mp3');
-    audioRef.current.loop = true;
-    audioRef.current.volume = 0.4;
     return () => {
       audioRef.current?.pause();
       audioRef.current = null;
@@ -16,6 +13,11 @@ export default function Hero() {
   }, []);
 
   const handleSoundToggle = () => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio('/background.mp3');
+      audioRef.current.loop = true;
+      audioRef.current.volume = 0.4;
+    }
     const audio = audioRef.current;
     if (!audio) return;
 

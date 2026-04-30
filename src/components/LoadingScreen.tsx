@@ -51,7 +51,7 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
     const timer = setTimeout(() => {
       startTime.current = performance.now();
       requestAnimationFrame(animate);
-    }, 400);
+    }, 200);
     return () => clearTimeout(timer);
   }, [animate]);
 

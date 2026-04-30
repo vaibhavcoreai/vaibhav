@@ -1,13 +1,15 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import Hero from './components/Hero';
-import Projects from './components/Projects';
-import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
-import StickyReveal from './components/StickyReveal';
-import ShrinkBox from './components/ShrinkBox';
-import ParallaxShowcase from './components/ParallaxShowcase';
 import NavBar from './components/NavBar';
 import LoadingScreen from './components/LoadingScreen';
+
+// Lazy load below-the-fold components
+const Projects = lazy(() => import('./components/Projects'));
+const ShrinkBox = lazy(() => import('./components/ShrinkBox'));
+const StickyReveal = lazy(() => import('./components/StickyReveal'));
+const ParallaxShowcase = lazy(() => import('./components/ParallaxShowcase'));
+const Footer = lazy(() => import('./components/Footer'));
 import { useScrollEffects } from './hooks/useScrollEffects';
 import { Analytics } from '@vercel/analytics/react';
 import ReactGA from 'react-ga4';
@@ -43,13 +45,15 @@ export default function App() {
       <div className="bg-[#0e0e0e] text-[#ededed]">
         <Hero />
       </div>
-      <Projects />
-      <ShrinkBox />
-      <StickyReveal />
-      <ParallaxShowcase />
-      <div className="bg-[#f8f9fa] text-[#0e0e0e]">
-        <Footer />
-      </div>
+      <Suspense fallback={<div className="h-20" />}>
+        <Projects />
+        <ShrinkBox />
+        <StickyReveal />
+        <ParallaxShowcase />
+        <div className="bg-[#f8f9fa] text-[#0e0e0e]">
+          <Footer />
+        </div>
+      </Suspense>
       <Analytics />
       <SpeedInsights />
     </main>
