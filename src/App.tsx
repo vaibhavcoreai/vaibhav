@@ -11,6 +11,7 @@ import LoadingScreen from './components/LoadingScreen';
 import { useScrollEffects } from './hooks/useScrollEffects';
 import { Analytics } from '@vercel/analytics/react';
 import ReactGA from 'react-ga4';
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
