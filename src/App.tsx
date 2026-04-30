@@ -9,6 +9,7 @@ import ParallaxShowcase from './components/ParallaxShowcase';
 import NavBar from './components/NavBar';
 import LoadingScreen from './components/LoadingScreen';
 import { useScrollEffects } from './hooks/useScrollEffects';
+import { Analytics } from '@vercel/analytics/react';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -42,6 +43,7 @@ export default function App() {
       <div className="bg-[#f8f9fa] text-[#0e0e0e]">
         <Footer />
       </div>
+      <Analytics />
     </main>
   );
 }
