@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { useState, useRef, useEffect } from 'react';
 
-export default function Hero() {
+export default function Hero({ shouldAnimate }: { shouldAnimate: boolean }) {
   const [isSoundOn, setIsSoundOn] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -29,6 +29,11 @@ export default function Hero() {
     setIsSoundOn(!isSoundOn);
   };
 
+  const nameVariants = {
+    hidden: (x: number) => ({ opacity: 0, x }),
+    visible: { opacity: 1, x: 0 }
+  };
+
   return (
     <section id="home" className="hero-new">
       {/* Top Right: Sound Toggle */}
@@ -54,8 +59,10 @@ export default function Hero() {
         <div className="hero-name-container">
           {/* Parash */}
           <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial="hidden"
+            custom={-30}
+            animate={shouldAnimate ? "visible" : "hidden"}
+            variants={nameVariants}
             transition={{ duration: 1.2, ease: "easeOut" }}
             className="hero-name-line"
           >
@@ -65,8 +72,10 @@ export default function Hero() {
 
           {/* Rautela */}
           <motion.div 
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial="hidden"
+            custom={30}
+            animate={shouldAnimate ? "visible" : "hidden"}
+            variants={nameVariants}
             transition={{ duration: 1.2, delay: 0.2, ease: "easeOut" }}
             className="hero-name-line hero-name-line--rautela"
           >
@@ -77,7 +86,7 @@ export default function Hero() {
           {/* Bio Text to the right */}
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={shouldAnimate ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 1, delay: 0.8 }}
             className="hero-bio-text"
           >
@@ -89,7 +98,7 @@ export default function Hero() {
       {/* Bottom Right: Rocket */}
       <motion.div 
         initial={{ y: 100, opacity: 0 }}
-        animate={{ y: 0, opacity: 0.6 }}
+        animate={shouldAnimate ? { y: 0, opacity: 0.6 } : { y: 100, opacity: 0 }}
         transition={{ duration: 2, delay: 1, ease: "easeOut" }}
         className="hero-rocket"
       >
@@ -104,7 +113,7 @@ export default function Hero() {
       <motion.div
         className="hero-scroll-indicator"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        animate={shouldAnimate ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 1.2, delay: 2 }}
       >
         <div className="hero-scroll-mouse">

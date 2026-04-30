@@ -43,7 +43,7 @@ export default function App() {
       <CustomCursor />
       <NavBar />
       <div className="bg-[#0e0e0e] text-[#ededed]">
-        <Hero />
+        <Hero shouldAnimate={!isLoading} />
       </div>
       <Suspense fallback={<div className="h-20" />}>
         <Projects />
