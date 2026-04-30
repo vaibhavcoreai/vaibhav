@@ -51,6 +51,7 @@ export default function App() {
         <Footer />
       </div>
       <Analytics />
+      <SpeedInsights />
     </main>
   );
 }
