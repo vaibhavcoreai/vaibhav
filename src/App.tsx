@@ -10,6 +10,7 @@ import NavBar from './components/NavBar';
 import LoadingScreen from './components/LoadingScreen';
 import { useScrollEffects } from './hooks/useScrollEffects';
 import { Analytics } from '@vercel/analytics/react';
+import ReactGA from 'react-ga4';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -19,6 +20,11 @@ export default function App() {
 
   // Lock scroll during loading
   useEffect(() => {
+    // Initialize GA4 - Replace with your Measurement ID
+    ReactGA.initialize('G-W1N52VDY7H');
+    // Send initial pageview
+    ReactGA.send({ hitType: "pageview", page: window.location.pathname });
+
     document.body.classList.add('is-loading');
     return () => document.body.classList.remove('is-loading');
   }, []);
