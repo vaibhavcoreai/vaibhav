@@ -1,4 +1,4 @@
-import { Camera, Mesh, Plane, Program, Renderer, Texture, Transform } from 'ogl';
+import { Camera, Mesh, Plane, Program, Renderer, Texture, Transform, Raycast, Vec2 } from 'ogl';
 import { useEffect, useRef } from 'react';
 
 type GL = Renderer['gl'];
@@ -410,10 +410,13 @@ class App {
   scene!: Transform;
   planeGeometry!: Plane;
   medias: Media[] = [];
-  mediasImages: { image: string; text: string }[] = [];
+  mediasImages: { image: string; text: string; link?: string }[] = [];
   screen!: { width: number; height: number };
   viewport!: { width: number; height: number };
   raf: number = 0;
+
+  raycast!: Raycast;
+  mouse: Vec2 = new Vec2();
 
   boundOnResize!: () => void;
   boundOnWheel!: (e: Event) => void;
@@ -424,6 +427,7 @@ class App {
 
   isDown: boolean = false;
   start: number = 0;
+  startTime: number = 0;
 
   constructor(
     container: HTMLElement,
@@ -444,6 +448,7 @@ class App {
     this.onCheckDebounce = debounce(this.onCheck.bind(this), 200);
     this.createRenderer();
     this.createCamera();
+    this.createRaycast();
     this.createScene();
     this.onResize();
     this.createGeometry();
@@ -467,6 +472,10 @@ class App {
     this.camera = new Camera(this.gl);
     this.camera.fov = 45;
     this.camera.position.z = 20;
+  }
+
+  createRaycast() {
+    this.raycast = new Raycast(this.gl);
   }
 
   createScene() {
@@ -564,6 +573,7 @@ class App {
     this.isDown = true;
     this.scroll.position = this.scroll.current;
     this.start = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    this.startTime = Date.now();
   }
 
   onTouchMove(e: MouseEvent | TouchEvent) {
@@ -576,21 +586,30 @@ class App {
   onTouchUp(e: MouseEvent | TouchEvent) {
     this.isDown = false;
     
-    // Determine if it was a click (minimal movement)
     const x = 'changedTouches' in e ? e.changedTouches[0].clientX : (e as MouseEvent).clientX;
-    const distance = Math.abs(this.start - x);
+    const y = 'changedTouches' in e ? e.changedTouches[0].clientY : (e as MouseEvent).clientY;
     
-    if (distance < 10 && this.medias.length > 0) {
-      // It's a click. Find the currently centered item.
-      const width = this.medias[0].width;
-      let itemIndex = Math.round(Math.abs(this.scroll.target) / width);
-      // The gallery loops by adding items to `mediasImages`, which are duplicated.
-      // We need to map itemIndex back to the original items array length.
-      const actualIndex = itemIndex % this.mediasImages.length;
-      const clickedMedia = this.medias[actualIndex];
+    // Determine if it was a click (minimal movement and short time)
+    const distance = Math.abs(this.start - x);
+    const time = Date.now() - this.startTime;
+    
+    if (distance < 10 && time < 300 && this.medias.length > 0) {
+      // Raycast to find exactly which item was clicked
+      const rect = this.container.getBoundingClientRect();
+      this.mouse.set(
+        ((x - rect.left) / rect.width) * 2 - 1,
+        -((y - rect.top) / rect.height) * 2 + 1
+      );
       
-      if (clickedMedia && clickedMedia.link) {
-        window.open(clickedMedia.link, '_blank');
+      this.raycast.castMouse(this.camera, this.mouse);
+      const intersects = this.raycast.intersectBounds(this.medias.map(m => m.plane));
+      
+      if (intersects.length > 0) {
+        const hitMesh = intersects[0];
+        const clickedMedia = this.medias.find(m => m.plane === hitMesh);
+        if (clickedMedia && clickedMedia.link) {
+          window.open(clickedMedia.link, '_blank');
+        }
       }
     }
     
@@ -653,26 +672,15 @@ class App {
       const x = e.clientX;
       const y = e.clientY;
       
-      // Calculate normalized device coordinates
-      const mouseX = (x / this.screen.width) * 2 - 1;
-      const mouseY = -(y / this.screen.height) * 2 + 1;
+      const rect = this.container.getBoundingClientRect();
+      this.mouse.set(
+        ((x - rect.left) / rect.width) * 2 - 1,
+        -((y - rect.top) / rect.height) * 2 + 1
+      );
       
-      // Simple approximation for hover since we aren't using a full raycaster object:
-      // We check if the mouse is roughly over any visible plane
-      const isOverAny = this.medias.some(media => {
-        const planeX = media.plane.position.x;
-        const planeY = media.plane.position.y;
-        const scaleX = media.plane.scale.x / 2;
-        const scaleY = media.plane.scale.y / 2;
-        
-        // Convert plane position to screen-ish space for a quick check
-        // (This is an approximation that works well for this cylinder layout)
-        const viewX = (planeX / (this.viewport.width / 2));
-        const viewY = (planeY / (this.viewport.height / 2));
-        
-        return Math.abs(mouseX - viewX) < scaleX / (this.viewport.width / 2) && 
-               Math.abs(mouseY - viewY) < scaleY / (this.viewport.height / 2);
-      });
+      this.raycast.castMouse(this.camera, this.mouse);
+      const intersects = this.raycast.intersectBounds(this.medias.map(m => m.plane));
+      const isOverAny = intersects.length > 0;
 
       if (isOverAny) {
         this.container.style.cursor = 'pointer';
