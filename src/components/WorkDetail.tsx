@@ -122,7 +122,7 @@ export default function WorkDetail() {
             <DecryptedText
               text={work.longDescription}
               animateOn="view"
-              revealDirection="center"
+              revealDirection="start"
               sequential={true}
               speed={30}
               className="text-white"
