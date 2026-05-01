@@ -43,6 +43,25 @@ export default function CustomCursor() {
       return;
     }
 
+    /* ── interactive-element hover detection ────────── */
+    const INTERACTIVE_SELECTOR = 'a, button, [role="button"], input, textarea, select, label, [data-cursor-hover]';
+
+    const checkHover = (el: HTMLElement | null) => {
+      if (!el) {
+        isHovering.current = false;
+        cursorRef.current?.classList.remove('cursor--hover');
+        return;
+      }
+      
+      if (el.closest(INTERACTIVE_SELECTOR)) {
+        isHovering.current = true;
+        cursorRef.current?.classList.add('cursor--hover');
+      } else {
+        isHovering.current = false;
+        cursorRef.current?.classList.remove('cursor--hover');
+      }
+    };
+
     /* ── mouse move ─────────────────────────────────── */
     const onMouseMove = (e: MouseEvent) => {
       mouse.current.x = e.clientX;
@@ -58,25 +77,17 @@ export default function CustomCursor() {
       if (cursorRef.current) {
         cursorRef.current.style.opacity = '1';
       }
+
+      // Check hover on move for dynamic elements
+      checkHover(e.target as HTMLElement);
     };
 
-    /* ── interactive-element hover detection ────────── */
-    const INTERACTIVE_SELECTOR = 'a, button, [role="button"], input, textarea, select, label, [data-cursor-hover]';
-
     const onMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.closest(INTERACTIVE_SELECTOR)) {
-        isHovering.current = true;
-        cursorRef.current?.classList.add('cursor--hover');
-      }
+      checkHover(e.target as HTMLElement);
     };
 
     const onMouseOut = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.closest(INTERACTIVE_SELECTOR)) {
-        isHovering.current = false;
-        cursorRef.current?.classList.remove('cursor--hover');
-      }
+      checkHover(e.relatedTarget as HTMLElement);
     };
 
     /* ── hide cursor when it leaves the viewport ───── */

@@ -622,6 +622,23 @@ class App {
     const delta = wheelEvent.deltaY || (wheelEvent as any).wheelDelta || (wheelEvent as any).detail;
     this.scroll.target += (delta > 0 ? this.scrollSpeed : -this.scrollSpeed) * 0.2;
     this.onCheckDebounce();
+    
+    // Also update hover state during scroll
+    this.updateHover();
+  }
+
+  updateHover() {
+    this.raycast.castMouse(this.camera, this.mouse);
+    const intersects = this.raycast.intersectBounds(this.medias.map(m => m.plane));
+    const isOverAny = intersects.length > 0;
+
+    if (isOverAny) {
+      this.container.style.cursor = 'pointer';
+      this.container.setAttribute('data-cursor-hover', 'true');
+    } else {
+      this.container.style.cursor = this.isDown ? 'grabbing' : 'grab';
+      this.container.removeAttribute('data-cursor-hover');
+    }
   }
 
   onCheck() {
@@ -679,17 +696,7 @@ class App {
         -((y - rect.top) / rect.height) * 2 + 1
       );
       
-      this.raycast.castMouse(this.camera, this.mouse);
-      const intersects = this.raycast.intersectBounds(this.medias.map(m => m.plane));
-      const isOverAny = intersects.length > 0;
-
-      if (isOverAny) {
-        this.container.style.cursor = 'pointer';
-        this.container.setAttribute('data-cursor-hover', 'true');
-      } else {
-        this.container.style.cursor = this.isDown ? 'grabbing' : 'grab';
-        this.container.removeAttribute('data-cursor-hover');
-      }
+      this.updateHover();
     };
 
     // Mouse leave to reset cursor
@@ -765,5 +772,5 @@ export default function CircularGallery({
       app.destroy();
     };
   }, [items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase]);
-  return <div className="w-full h-full overflow-hidden cursor-grab active:cursor-grabbing" ref={containerRef} />;
+  return <div className="w-full h-full overflow-hidden" ref={containerRef} />;
 }
