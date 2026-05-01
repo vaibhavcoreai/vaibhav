@@ -1,85 +1,84 @@
-# Hello, I'm Vaibhav 👋
+# Vaibhav Manaji — Production Archive
 
-### B.Sc. Data Science & AI Student @ IIT Madras
-
-I am a passionate learner exploring the intersection of **Data Science**, **Artificial Intelligence**, and **Human Behavior**. My journey is driven by a deep curiosity about how intelligent systems can better understand and interact with the world.
-
----
-
-## 🚀 About Me
-
-I am currently a B.Sc. Data Science & AI student at **IIT Madras (Online)**. I believe that the best way to learn is by doing, which is why I'm actively building my skills through:
-- 🛠️ **Hands-on Projects**: Building real-world applications to solve problems.
-- 🧪 **Continuous Experimentation**: Testing new ideas and pushing the boundaries of what I know.
-- 📈 **Growth Mindset**: Focusing on progress and consistency over perfection.
-
-> "This portfolio is not about being perfect — it’s about progress, consistency, and growth."
+### 2nd Year Data Science Student @ IIT Madras
+**Focusing on the Intersection of Machine Learning, Psychometry, and Cinematic Interface Design.**
 
 ---
 
-## 🧠 Core Interests
-
-- **AI & Human Behavior**: Understanding how AI can model and predict human actions.
-- **Data Storytelling**: Turning raw data into meaningful insights.
-- **Full-Stack Development**: Creating seamless user experiences for AI-powered apps.
+## 🏛️ Project Vision
+This portfolio is a high-fidelity production archive designed to showcase the convergence of **Academic Research** and **Cinematic Frontend Engineering**. Built with a focus on immersive storytelling, it treats each data science project as a cinematic artifact—merging rigorous statistical analysis with premium digital aesthetics.
 
 ---
 
-## 🛠️ Tech Stack & Tools
+## 🔬 Research Trilogy (ML & Behavioral Science)
 
-### 🧠 Data Science & GenAI (Active Learning)
-- **Generative AI**: Google Gemini AI, AI Studio, Prompt Engineering.
-- **ML/AI**: Machine Learning Fundamentals, Deep Learning, Predictive Modeling.
-- **Data Insights**: Statistical Analysis, Data Visualization, Data Storytelling.
+### 1. Stress & Anxiety Detection
+- **Objective:** 4-class severity classification using DASS-21 psychometric modeling.
+- **Algorithms:** Logistic Regression, Random Forest, SVM, KNN.
+- **Context:** Addressing mental health screening gaps in under-resourced regions.
+- **Result:** Comparative analysis of 19 lifestyle and physiological features.
 
-### 💻 Programming & Development
-- **Languages**: Python (Core), Java, C, JavaScript, TypeScript.
-- **Web Stack**: React, Vite, Tailwind CSS, Motion (Framer Motion).
-- **Tools**: Git, Node.js, Linux, VS Code.
+### 2. Depression Severity Prediction
+- **Objective:** Clinical severity prediction based on the PHQ-9 framework.
+- **Performance:** **AUC 0.806** (Logistic Regression).
+- **Insights:** Identifying social isolation and sleep inversion as primary latent indicators.
+- **Focus:** Multi-class classification across clinical cutoffs (Minimal to Severe).
+
+### 3. Personality Type Classification (OCEAN)
+- **Objective:** Predicting dominant Big Five traits from behavioral and BFI data.
+- **Performance:** **85.8% Test Accuracy** (Gaussian Naive Bayes).
+- **Architecture:** Benchmarking Naive Bayes vs. MLP Neural Networks (128→64→32).
+- **Key Discovery:** High linear separability in psychometric Likert-scale structures.
 
 ---
 
-## 📁 This Repository
-
-This project is a reflection of my learning journey. It's a space where I showcase my experiments and progress in web development and AI integration.
+## 🎨 Design Philosophy — "The Cinematic Interface"
+The frontend is engineered to provide a "Theatre" experience for data artifacts:
+- **Depth Layers:** Multi-axis horizontal and vertical parallax systems.
+- **Glassmorphism:** High-blur translucent surfaces (`backdrop-blur-xl`) for tactile UI.
+- **Atmospheric Motion:** Scroll-linked theme transitions (Deep Black to Pure White).
+- **Technical Aesthetics:** Scanline overlays, coordinate tracking, and monospaced data readouts.
 
 ---
 
-## ✨ Project Highlights
+## 🛠️ Technical Stack
 
-This portfolio features several custom-built interactive components:
-- **Parallax Showcase**: A visually engaging way to present projects with depth.
-- **Sticky Reveal & Expand Boxes**: Smooth, scroll-driven animations for content discovery.
-- **MyVibe**: A personal touch showing my interests and "vibe".
-- **Custom UI Elements**: Built with Framer Motion and Tailwind CSS for a premium feel.
+### **Data Science & Analytics**
+- **Languages:** Python (Primary), Scikit-Learn, Pandas, NumPy.
+- **Models:** Ensemble Methods, Neural Networks (MLP), Statistical Classifiers.
+- **Theory:** Psychometric Scaling (PHQ-9, DASS-21, OCEAN).
 
-### Run Locally
+### **Frontend Orchestration**
+- **Core:** React 19, TypeScript, Vite.
+- **Motion:** Framer Motion (Scroll-linked interaction, AnimatePresence).
+- **Styling:** Tailwind CSS (Custom Design System).
 
-1. **Clone the repository**
-2. **Install dependencies**:
+---
+
+## 🚀 Local Deployment
+
+1. **Clone the Archive**
+2. **Install Dependencies**:
    ```bash
    npm install
    ```
-3. **Set up Environment Variables**:
-   Create a `.env.local` file and add your `GEMINI_API_KEY`:
-   ```env
-   GEMINI_API_KEY=your_api_key_here
-   ```
-4. **Run the development server**:
+3. **Execute Production Server**:
    ```bash
    npm run dev
    ```
 
 ---
 
-## 📬 Connect with Me
+## 📬 Connectivity
+I am actively exploring collaborations at the intersection of **AI and Human Behavior**.
 
-I'm always open to discussing data science, AI, or interesting collaborations!
+- **Affiliation**: B.Sc. Data Science & AI @ IIT Madras
+- **Location**: Maharashtra, India
+**Focus**: Learning, Building, Growing.
 
-- **Education**: IIT Madras (B.Sc. Data Science & AI)
-- **Focus**: Learning, Building, Growing.
+- **Connect**: [GitHub](https://github.com/vaibhavcoreai) | [Connect +]
 
 ---
 <div align="center">
-  <i>Keep experimenting. Keep growing.</i>
+  <i>"Somewhere between code and consciousness."</i>
 </div>
