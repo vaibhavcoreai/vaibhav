@@ -476,7 +476,7 @@ class App {
   }
 
   createRaycast() {
-    this.raycast = new Raycast(this.gl);
+    this.raycast = new Raycast();
   }
 
   createScene() {

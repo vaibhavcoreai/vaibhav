@@ -42,7 +42,7 @@ export function useScrollEffects() {
       gestureOrientation: 'vertical',
       smoothWheel: true,
       syncTouch: true, // Syncs touch scroll with Lenis for responsive animations
-      touchInertiaMultiplier: 35,
+      touchMultiplier: 35,
     });
     lenisRef.current = lenis;
 
