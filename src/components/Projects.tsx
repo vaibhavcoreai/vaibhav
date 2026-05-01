@@ -24,6 +24,11 @@ export default function Projects() {
       link: "https://music.youtube.com/watch?v=LUgpPmj6nR8&si=JPezbITTQ0XdkmY_"
     },
     {
+      image: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/05/9a/21/059a2199-bb3a-a90d-efd8-45bff9fe5aed/198846153032_cover.jpg/600x600bb.jpg",
+      text: "Kehne laga",
+      link: "https://music.youtube.com/watch?v=HcOBSj_uSvM&si=GKW_Ea5aLQkeCe54"
+    },
+    {
       image: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/e3/7b/f8/e37bf8d3-268f-a555-f713-480f4e8f69c1/23UM1IM18506.rgb.jpg/600x600bb.jpg",
       text: "Ocean",
       link: "https://music.youtube.com/watch?v=RpHUIUslYv0&si=MBKRq8ruEP-XdsoZ"
