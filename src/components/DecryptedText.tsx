@@ -364,13 +364,19 @@ export default function DecryptedText({
   return (
     <motion.span
       ref={containerRef}
-      className={`inline-block whitespace-pre-wrap ${parentClassName}`}
+      className={`inline-block relative whitespace-pre-wrap ${parentClassName}`}
       {...animateProps}
       {...props}
     >
-      <span className="sr-only">{displayText}</span>
+      <span className="sr-only">{text}</span>
 
-      <span aria-hidden="true">
+      {/* Ghost text to reserve space and prevent layout shifts */}
+      <span aria-hidden="true" className="invisible">
+        {text}
+      </span>
+
+      {/* Actual animating text */}
+      <span aria-hidden="true" className="absolute inset-0">
         {displayText.split('').map((char, index) => {
           const isRevealedOrDone = revealedIndices.has(index) || (!isAnimating && isDecrypted);
 
