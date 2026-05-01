@@ -1,10 +1,13 @@
 import { motion, useScroll, useMotionValueEvent } from 'motion/react';
 import React, { useState, useRef } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export default function NavBar() {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const lastScrollY = useRef(0);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest < 50) {
@@ -21,7 +24,12 @@ export default function NavBar() {
     lastScrollY.current = latest;
   });
 
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, id: string) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    if (location.pathname !== '/') {
+      // If not on home page, navigate home first then scroll (or just navigate home)
+      return; // Link to="/" handles it
+    }
+    
     e.preventDefault();
     const element = document.getElementById(id);
     if (element) {
@@ -41,18 +49,18 @@ export default function NavBar() {
       className="nav-dock-container"
     >
       <div className="nav-dock-profile">
-        <a href="#home" onClick={(e) => scrollToSection(e, 'home')}>
+        <Link to="/" onClick={(e) => handleNavClick(e, 'home')}>
           <img 
             src="https://res.cloudinary.com/dfonotyfb/image/upload/v1775586663/dp_iutq1b.png" 
             alt="Profile" 
           />
-        </a>
+        </Link>
       </div>
       
       <div className="nav-dock-links">
-        <a href="#home" onClick={(e) => scrollToSection(e, 'home')} className="nav-dock-link">Home</a>
-        <a href="#about" onClick={(e) => scrollToSection(e, 'about')} className="nav-dock-link">About</a>
-        <a href="#my-vibe" onClick={(e) => scrollToSection(e, 'my-vibe')} className="nav-dock-link">Playground</a>
+        <Link to="/" onClick={(e) => handleNavClick(e, 'home')} className="nav-dock-link">Home</Link>
+        <Link to="/" onClick={(e) => handleNavClick(e, 'about')} className="nav-dock-link">About</Link>
+        <Link to="/" onClick={(e) => handleNavClick(e, 'my-vibe')} className="nav-dock-link">Playground</Link>
       </div>
 
       <a 

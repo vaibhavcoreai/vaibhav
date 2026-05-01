@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import Lenis from 'lenis';
 
 /**
@@ -14,6 +15,7 @@ import Lenis from 'lenis';
 export function useScrollEffects() {
   const lenisRef = useRef<Lenis | null>(null);
   const rafRef = useRef(0);
+  const location = useLocation();
 
   useEffect(() => {
     // Respect prefers-reduced-motion
@@ -131,5 +133,5 @@ export function useScrollEffects() {
       scaleInObserver.disconnect();
       glowObserver.disconnect();
     };
-  }, []);
+  }, [location]);
 }

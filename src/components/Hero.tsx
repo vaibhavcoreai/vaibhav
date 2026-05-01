@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Hero({ shouldAnimate }: { shouldAnimate: boolean }) {
   const [isSoundOn, setIsSoundOn] = useState(false);
@@ -36,23 +37,36 @@ export default function Hero({ shouldAnimate }: { shouldAnimate: boolean }) {
 
   return (
     <section id="home" className="hero-new">
-      {/* Top Right: Sound Toggle */}
-      <button 
-        className="hero-sound-toggle cursor-pointer border-none bg-transparent text-white"
-        onClick={handleSoundToggle}
-      >
-        <div className="flex gap-0.5 items-end h-3">
-          {[0.4, 0.8, 0.6, 0.9, 0.5].map((h, i) => (
-            <motion.div
-              key={i}
-              animate={{ height: isSoundOn ? [`${h * 100}%`, `${(1 - h) * 100}%`, `${h * 100}%`] : '10%' }}
-              transition={{ repeat: isSoundOn ? Infinity : 0, duration: 1, delay: i * 0.1 }}
-              className="w-px bg-white"
-            />
-          ))}
-        </div>
-        <span>{isSoundOn ? 'Sound is on' : 'Turn the sound on'}</span>
-      </button>
+      {/* Header Controls (Top Right) */}
+      <div className="absolute top-8 md:top-12 right-6 md:right-12 z-50 flex flex-col items-end gap-3 md:gap-4">
+        {/* Sound Toggle */}
+        <button 
+          className="hero-sound-toggle cursor-pointer border-none bg-transparent text-white"
+          onClick={handleSoundToggle}
+        >
+          <div className="flex gap-0.5 items-end h-3">
+            {[0.4, 0.8, 0.6, 0.9, 0.5].map((h, i) => (
+              <motion.div
+                key={i}
+                animate={{ height: isSoundOn ? [`${h * 100}%`, `${(1 - h) * 100}%`, `${h * 100}%`] : '10%' }}
+                transition={{ repeat: isSoundOn ? Infinity : 0, duration: 1, delay: i * 0.1 }}
+                className="w-px bg-white"
+              />
+            ))}
+          </div>
+          <span>{isSoundOn ? 'Sound is on' : 'Turn the sound on'}</span>
+        </button>
+
+        {/* Selected Projects Link */}
+        <Link 
+          to="/selected-work"
+          className="hero-sound-toggle cursor-pointer bg-transparent text-white no-underline flex items-center justify-between gap-4 group hover:bg-white/5 transition-all duration-300"
+          style={{ width: 'fit-content', border: '1px solid #ffffff', padding: '0.6rem 1rem' }}
+        >
+          <span className="font-mono text-[10px] uppercase tracking-widest translate-y-[1px]">Selected Projects</span>
+          <span className="font-mono text-[10px] group-hover:translate-x-1 transition-transform">↗</span>
+        </Link>
+      </div>
 
       {/* Main Content Area */}
       <div className="hero-content-wrapper">
