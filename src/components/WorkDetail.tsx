@@ -4,6 +4,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { selectedWorks } from '../data/works';
 import Footer from './Footer';
 import DecryptedText from './DecryptedText';
+import SplitText from './SplitText';
 
 export default function WorkDetail() {
   const { id } = useParams();
@@ -58,18 +59,25 @@ export default function WorkDetail() {
         </motion.div>
 
         <div className="relative z-10 px-6">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <span className="text-blue-500 font-mono text-[10px] md:text-xs tracking-[0.4em] md:tracking-[0.6em] uppercase block mb-6 md:mb-10">{work.client}</span>
-            <h1 className="font-serif text-5xl md:text-8xl lg:text-[14rem] leading-[0.9] md:leading-[0.8] mb-8 md:mb-12 tracking-tighter">
-              {work.title.split(' ').map((word, i) => (
-                <span key={i} className={i % 2 !== 0 ? 'italic opacity-50 font-light' : ''}>{word} </span>
-              ))}
+          <div className="flex flex-col items-center">
+            <SplitText
+              text={work.client}
+              tag="span"
+              className="text-blue-500 font-mono text-[10px] md:text-xs tracking-[0.4em] md:tracking-[0.6em] uppercase block mb-6 md:mb-10"
+              delay={30}
+              duration={0.8}
+            />
+            <h1 className="font-serif text-5xl md:text-8xl lg:text-[12rem] leading-[0.9] md:leading-[0.8] mb-8 md:mb-12 tracking-tighter max-w-7xl mx-auto">
+              <SplitText
+                text={work.title}
+                tag="span"
+                delay={50}
+                duration={1.2}
+                ease={[0.22, 1, 0.36, 1]}
+                textAlign="center"
+              />
             </h1>
-          </motion.div>
+          </div>
         </div>
 
         {/* Scroll Line */}

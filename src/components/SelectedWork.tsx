@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from './Footer';
 import { selectedWorks, WorkItem } from '../data/works';
+import SplitText from './SplitText';
 
 export default function SelectedWork() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -27,20 +28,30 @@ export default function SelectedWork() {
           <span className="group-hover:-translate-x-1 transition-transform">←</span> Return Home
         </Link>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-          className="relative z-10"
-        >
-          <span className="text-blue-500 font-mono text-[10px] tracking-[0.6em] uppercase block mb-8">Production Archive</span>
+        <div className="relative z-10">
+          <SplitText
+            text="Production Archive"
+            tag="span"
+            className="text-blue-500 font-mono text-[10px] tracking-[0.6em] uppercase block mb-8"
+            delay={30}
+            duration={0.8}
+          />
           <h1 className="font-serif text-7xl md:text-[10rem] mb-8 leading-[0.85] tracking-tighter text-white">
-            Selected<br/><span className="italic opacity-60 font-light text-white">Projects.</span>
+            <SplitText text="Selected" tag="span" delay={50} duration={1.2} />
+            <br />
+            <span className="italic opacity-60 font-light text-white">
+              <SplitText text="Projects." tag="span" delay={50} duration={1.2} />
+            </span>
           </h1>
-          <p className="max-w-2xl mx-auto text-white/50 leading-relaxed font-sans text-lg md:text-xl italic border-l border-white/10 pl-8 md:pl-12">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 1 }}
+            className="max-w-2xl mx-auto text-white/50 leading-relaxed font-sans text-lg md:text-xl italic border-l border-white/10 pl-8 md:pl-12"
+          >
             Engineering intelligence through code and aesthetics. A collection of academic and personal projects built with precision.
-          </p>
-        </motion.div>
+          </motion.p>
+        </div>
 
         {/* Technical Data Overlay (Top Right) */}
         <div className="absolute top-12 right-12 hidden md:flex flex-col items-end gap-2 z-10 opacity-40">
