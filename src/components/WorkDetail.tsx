@@ -3,6 +3,7 @@ import { useRef, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { selectedWorks } from '../data/works';
 import Footer from './Footer';
+import DecryptedText from './DecryptedText';
 
 export default function WorkDetail() {
   const { id } = useParams();
@@ -118,9 +119,16 @@ export default function WorkDetail() {
         <div className="lg:col-span-7 space-y-24 md:space-y-48 mt-12 lg:mt-0">
           <div data-scroll="fade-up">
             <span className="font-mono text-[10px] text-blue-500 mb-6 md:mb-10 block uppercase tracking-[0.4em] md:tracking-[0.5em]">Phase 01 / Strategy</span>
-            <p className="font-sans text-lg md:text-2xl lg:text-3xl leading-relaxed text-white/50">
-              {work.longDescription}
-            </p>
+            <DecryptedText
+              text={work.longDescription}
+              animateOn="view"
+              revealDirection="center"
+              sequential={true}
+              speed={30}
+              className="text-white"
+              encryptedClassName="text-blue-500/30"
+              parentClassName="font-sans text-lg md:text-2xl lg:text-3xl leading-relaxed text-white/50 block"
+            />
           </div>
 
           {/* Interface Display */}
