@@ -2,9 +2,12 @@ import { Linkedin, Github, Instagram } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <section id="contact" data-glow="entry" className="relative min-h-[80vh] flex flex-col items-center justify-center overflow-hidden pb-32">
+    <section id="contact" data-glow="entry" className="relative min-h-[80vh] flex flex-col items-center justify-center overflow-hidden pb-32 hero-gradient-bg text-white">
+      {/* Blend from previous dark section */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-transparent h-64 z-0" />
+      
       {/* Subtle dividing line */}
-      <div className="absolute top-0 w-full h-[1px] bg-current opacity-10" />
+      <div className="absolute top-0 w-full h-[1px] bg-white opacity-10 z-10" />
 
       <div className="relative z-10 w-full max-w-5xl mx-auto px-6 text-center md:text-left flex flex-col md:flex-row justify-between items-center md:items-end h-full mt-auto">
         
@@ -36,9 +39,6 @@ export default function Footer() {
             </a>
           </div>
         </div>
-
-
-
       </div>
     </section>
   );

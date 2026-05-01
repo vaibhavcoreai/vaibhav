@@ -16,10 +16,11 @@ export default function TransitionDemo() {
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-24" id="playground">
+    <section className="w-full bg-[#0a0a0a] py-24" id="playground">
+      <div className="max-w-7xl mx-auto px-6">
       <div className="mb-16">
-        <h2 className="font-mono text-sm tracking-widest opacity-40 uppercase">Playground</h2>
-        <p className="font-serif italic text-3xl mt-4">ScrollX UI Experiments</p>
+        <h2 className="font-mono text-sm tracking-widest opacity-40 uppercase text-white">Playground</h2>
+        <p className="font-serif italic text-3xl mt-4 text-white">ScrollX UI Experiments</p>
       </div>
 
       <div className='relative w-full min-h-[87.5vh] flex items-center justify-center'>
@@ -30,9 +31,10 @@ export default function TransitionDemo() {
           type='curved'
           direction='bottom'
           autoExit
-          className='bg-[#ededed] text-black'
+          className='bg-[#0a0a0a] text-white'
+          containerClassName="min-h-[87.5vh] w-full bg-[#0a0a0a]"
           intro={
-            <div className='flex flex-col items-center justify-center h-full w-full relative overflow-hidden bg-[#e0e0e0]'>
+            <div className='flex flex-col items-center justify-center h-full w-full relative overflow-hidden bg-[#0a0a0a]'>
               {/* Background aesthetic image for the curtain */}
               <img 
                 src="/myart/sitar.jpg" 
@@ -40,10 +42,10 @@ export default function TransitionDemo() {
                 className="absolute inset-0 w-full h-full object-cover grayscale opacity-30 mix-blend-multiply" 
               />
               <div className="relative z-10 text-center">
-                <h1 className='text-4xl md:text-7xl font-serif italic text-black'>
+                <h1 className='text-4xl md:text-7xl font-serif italic text-white'>
                   Musical Roots
                 </h1>
-                <p className='mt-6 text-xs font-mono tracking-[0.2em] uppercase text-black/60'>
+                <p className='mt-6 text-xs font-mono tracking-[0.2em] uppercase text-white/60'>
                   Instruments of my soul
                 </p>
               </div>
@@ -87,7 +89,7 @@ export default function TransitionDemo() {
             </div>
 
             <div className="text-center mt-12 md:mt-20">
-              <h2 className='text-3xl md:text-5xl font-serif text-black leading-tight'>
+              <h2 className='text-3xl md:text-5xl font-serif text-white leading-tight'>
                 The rhythm of
                 <br />
                 <span className="italic opacity-60">Indian classical.</span>
@@ -97,7 +99,7 @@ export default function TransitionDemo() {
             <Button
               onClick={handleReload}
               variant='outline'
-              className='flex items-center space-x-3 rounded-full border-black/20 hover:bg-black hover:text-white transition-all px-6 py-6'
+              className='flex items-center space-x-3 rounded-full border-white/20 hover:bg-white hover:text-black transition-all px-6 py-6'
             >
               <motion.div
                 animate={{ rotate: rotate ? 360 : 0 }}
@@ -109,6 +111,7 @@ export default function TransitionDemo() {
             </Button>
           </div>
         </Transition>
+      </div>
       </div>
     </section>
   );

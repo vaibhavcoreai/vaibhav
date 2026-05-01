@@ -48,16 +48,11 @@ export default function WorkDetail() {
       </nav>
 
       {/* Immersive Hero Section */}
-      <section className="relative h-screen overflow-hidden hero-new flex items-center justify-center text-center">
+      <section className="relative h-screen overflow-hidden flex items-center justify-center text-center">
         <motion.div
           style={{ y: heroY, scale: heroScale, opacity: heroOpacity }}
-          className="absolute inset-0 z-0"
+          className="absolute inset-0 z-0 hero-gradient-bg"
         >
-          <img
-            src={work.heroImage}
-            alt={work.title}
-            className="w-full h-full object-cover grayscale brightness-[0.2] opacity-50"
-          />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050505]" />
         </motion.div>
 

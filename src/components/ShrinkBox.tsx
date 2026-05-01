@@ -140,7 +140,7 @@ export default function ShrinkBox() {
   }, [animate]);
 
   return (
-    <div ref={wrapperRef} className="h-[250vh] relative z-30 w-full pointer-events-none">
+    <div ref={wrapperRef} className="h-[250vh] relative z-30 w-full pointer-events-none -mt-px">
       <div 
         ref={boxRef} 
         className="bg-[#f8f9fa] overflow-hidden"
