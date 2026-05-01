@@ -49,7 +49,7 @@ export default function WorkDetail() {
       </nav>
 
       {/* Immersive Hero Section */}
-      <section className="relative h-screen overflow-hidden flex items-center justify-center text-center">
+      <section className="relative h-[100dvh] overflow-hidden flex items-center justify-center text-center">
         <motion.div
           style={{ y: heroY, scale: heroScale, opacity: heroOpacity }}
           className="absolute inset-0 z-0 hero-gradient-bg"

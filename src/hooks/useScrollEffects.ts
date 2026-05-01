@@ -35,20 +35,22 @@ export function useScrollEffects() {
     // ── Lenis smooth scroll ────────────────────────────────────
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
     
-    let lenis: Lenis | null = null;
-    if (!isMobile) {
-      lenis = new Lenis({
-        duration: 1.2,
-        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      });
-      lenisRef.current = lenis;
+    const lenis = new Lenis({
+      duration: isMobile ? 1.0 : 1.2,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      syncTouch: true, // Syncs touch scroll with Lenis for responsive animations
+      touchInertiaMultiplier: 35,
+    });
+    lenisRef.current = lenis;
 
-      const raf = (time: number) => {
-        lenis?.raf(time);
-        rafRef.current = requestAnimationFrame(raf);
-      };
+    const raf = (time: number) => {
+      lenis.raf(time);
       rafRef.current = requestAnimationFrame(raf);
-    }
+    };
+    rafRef.current = requestAnimationFrame(raf);
 
     // ── fade-up observer ───────────────────────────────────────
     const fadeUpObserver = new IntersectionObserver(
@@ -66,7 +68,10 @@ export function useScrollEffects() {
           fadeUpObserver.unobserve(container);
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -80px 0px' }
+      { 
+        threshold: 0.1, 
+        rootMargin: isMobile ? '0px 0px -20px 0px' : '0px 0px -80px 0px' 
+      }
     );
 
     // ── scale-in observer ──────────────────────────────────────
