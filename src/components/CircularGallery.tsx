@@ -424,6 +424,7 @@ class App {
   boundOnTouchMove!: (e: MouseEvent | TouchEvent) => void;
   boundOnTouchUp!: (e: MouseEvent | TouchEvent) => void;
   onMouseMove!: (e: MouseEvent) => void;
+  onMouseLeave!: () => void;
 
   isDown: boolean = false;
   start: number = 0;
@@ -691,6 +692,12 @@ class App {
       }
     };
 
+    // Mouse leave to reset cursor
+    this.onMouseLeave = () => {
+      this.container.style.cursor = 'grab';
+      this.container.removeAttribute('data-cursor-hover');
+    };
+
     window.addEventListener('resize', this.boundOnResize);
     window.addEventListener('mousewheel', this.boundOnWheel);
     window.addEventListener('wheel', this.boundOnWheel);
@@ -701,6 +708,7 @@ class App {
     window.addEventListener('touchmove', this.boundOnTouchMove);
     window.addEventListener('touchend', this.boundOnTouchUp);
     this.container.addEventListener('mousemove', this.onMouseMove);
+    this.container.addEventListener('mouseleave', this.onMouseLeave);
   }
 
   destroy() {
@@ -715,6 +723,7 @@ class App {
     window.removeEventListener('touchmove', this.boundOnTouchMove);
     window.removeEventListener('touchend', this.boundOnTouchUp);
     this.container.removeEventListener('mousemove', this.onMouseMove);
+    this.container.removeEventListener('mouseleave', this.onMouseLeave);
     if (this.renderer && this.renderer.gl && this.renderer.gl.canvas.parentNode) {
       this.renderer.gl.canvas.parentNode.removeChild(this.renderer.gl.canvas as HTMLCanvasElement);
     }
