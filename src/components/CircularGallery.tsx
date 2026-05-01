@@ -147,6 +147,7 @@ interface MediaProps {
   scene: Transform;
   screen: ScreenSize;
   text: string;
+  link?: string;
   viewport: Viewport;
   bend: number;
   textColor: string;
@@ -165,6 +166,7 @@ class Media {
   scene: Transform;
   screen: ScreenSize;
   text: string;
+  link?: string;
   viewport: Viewport;
   bend: number;
   textColor: string;
@@ -192,6 +194,7 @@ class Media {
     scene,
     screen,
     text,
+    link,
     viewport,
     bend,
     textColor,
@@ -207,6 +210,7 @@ class Media {
     this.scene = scene;
     this.screen = screen;
     this.text = text;
+    this.link = link;
     this.viewport = viewport;
     this.bend = bend;
     this.textColor = textColor;
@@ -380,7 +384,7 @@ class Media {
 }
 
 interface AppConfig {
-  items?: { image: string; text: string }[];
+  items?: { image: string; text: string; link?: string }[];
   bend?: number;
   textColor?: string;
   borderRadius?: number;
@@ -476,7 +480,7 @@ class App {
   }
 
   createMedias(
-    items: { image: string; text: string }[] | undefined,
+    items: { image: string; text: string; link?: string }[] | undefined,
     bend: number = 1,
     textColor: string,
     borderRadius: number,
@@ -545,6 +549,7 @@ class App {
         scene: this.scene,
         screen: this.screen,
         text: data.text,
+        link: data.link,
         viewport: this.viewport,
         bend,
         textColor,
@@ -567,8 +572,27 @@ class App {
     this.scroll.target = (this.scroll.position ?? 0) + distance;
   }
 
-  onTouchUp() {
+  onTouchUp(e: MouseEvent | TouchEvent) {
     this.isDown = false;
+    
+    // Determine if it was a click (minimal movement)
+    const x = 'changedTouches' in e ? e.changedTouches[0].clientX : (e as MouseEvent).clientX;
+    const distance = Math.abs(this.start - x);
+    
+    if (distance < 10 && this.medias.length > 0) {
+      // It's a click. Find the currently centered item.
+      const width = this.medias[0].width;
+      let itemIndex = Math.round(Math.abs(this.scroll.target) / width);
+      // The gallery loops by adding items to `mediasImages`, which are duplicated.
+      // We need to map itemIndex back to the original items array length.
+      const actualIndex = itemIndex % this.mediasImages.length;
+      const clickedMedia = this.medias[actualIndex];
+      
+      if (clickedMedia && clickedMedia.link) {
+        window.open(clickedMedia.link, '_blank');
+      }
+    }
+    
     this.onCheck();
   }
 
@@ -651,7 +675,7 @@ class App {
 }
 
 interface CircularGalleryProps {
-  items?: { image: string; text: string }[];
+  items?: { image: string; text: string; link?: string }[];
   bend?: number;
   textColor?: string;
   borderRadius?: number;
