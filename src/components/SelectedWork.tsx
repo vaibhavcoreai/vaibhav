@@ -11,30 +11,14 @@ export default function SelectedWork() {
     offset: ['start start', 'end start']
   });
 
-  // Parallax for header background
-  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
-  const bgOpacity = useTransform(scrollYProgress, [0, 0.5], [0.4, 0]);
-
   const featuredWork = selectedWorks[0];
 
   return (
     <div ref={containerRef} className="bg-[#0e0e0e] text-[#ededed] min-h-screen">
-      {/* Header Section with Immersive Background */}
-      <section className="relative h-[80vh] flex flex-col items-center justify-center text-center px-6 overflow-hidden">
-        {/* Cinematic Background Image */}
-        <motion.div 
-          style={{ y: bgY, opacity: bgOpacity }}
-          className="absolute inset-0 z-0"
-        >
-          <img 
-            src={featuredWork.heroImage} 
-            alt="Archive Background" 
-            className="w-full h-full object-cover grayscale brightness-50 contrast-125"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-[#0e0e0e]/60 to-[#0e0e0e]" />
-          {/* Scanline Overlay to match ProjectShowcase */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_2px,3px_100%] pointer-events-none opacity-20" />
-        </motion.div>
+      {/* Header Section with Immersive Gradient */}
+      <section className="relative h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden hero-new">
+        {/* Gradient Overlay for transition to dark content */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0e0e0e] z-0" />
         
         <Link 
           to="/" 
@@ -50,7 +34,7 @@ export default function SelectedWork() {
           className="relative z-10"
         >
           <span className="text-blue-500 font-mono text-[10px] tracking-[0.6em] uppercase block mb-8">Production Archive</span>
-          <h1 className="font-serif text-7xl md:text-[10rem] mb-8 leading-[0.85] tracking-tighter">
+          <h1 className="font-serif text-7xl md:text-[10rem] mb-8 leading-[0.85] tracking-tighter text-white">
             Selected<br/><span className="italic opacity-60 font-light text-white">Projects.</span>
           </h1>
           <p className="max-w-2xl mx-auto text-white/50 leading-relaxed font-sans text-lg md:text-xl italic border-l border-white/10 pl-8 md:pl-12">
@@ -60,8 +44,8 @@ export default function SelectedWork() {
 
         {/* Technical Data Overlay (Top Right) */}
         <div className="absolute top-12 right-12 hidden md:flex flex-col items-end gap-2 z-10 opacity-40">
-          <span className="font-mono text-[8px] uppercase tracking-widest">Archive_Status: Online</span>
-          <span className="font-mono text-[8px] uppercase tracking-widest">Latent_Space: {featuredWork.coordinates}</span>
+          <span className="font-mono text-[8px] uppercase tracking-widest text-white">Archive_Status: Online</span>
+          <span className="font-mono text-[8px] uppercase tracking-widest text-white">Latent_Space: {featuredWork.coordinates}</span>
         </div>
 
         {/* Scroll Line */}

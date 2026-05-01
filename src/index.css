@@ -136,11 +136,14 @@ body.is-loading {
   bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(30, 30, 30, 0.65); /* Elegant dark glass */
+  background: rgba(30, 30, 30, 0.65);
+  /* Elegant dark glass */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  padding: 0.6rem 0.6rem 0.6rem 1.5rem; /* Adjusted padding for square shape */
-  border-radius: 0; /* Square corners */
+  padding: 0.6rem 0.6rem 0.6rem 1.5rem;
+  /* Adjusted padding for square shape */
+  border-radius: 0;
+  /* Square corners */
   display: flex;
   align-items: center;
   gap: 2rem;
@@ -151,7 +154,8 @@ body.is-loading {
 }
 
 .nav-dock-profile {
-  display: none; /* Removed the profile image to keep the dock incredibly clean and minimalist */
+  display: none;
+  /* Removed the profile image to keep the dock incredibly clean and minimalist */
 }
 
 .nav-dock-links {
@@ -194,7 +198,8 @@ body.is-loading {
   background: #ffffff;
   color: #000000;
   padding: 0.8rem 1.5rem;
-  border-radius: 0; /* Square corners */
+  border-radius: 0;
+  /* Square corners */
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -268,10 +273,12 @@ body.is-loading {
     transform: translateY(0);
     opacity: 1;
   }
+
   50% {
     transform: translateY(12px);
     opacity: 0;
   }
+
   100% {
     transform: translateY(0);
     opacity: 1;
@@ -279,9 +286,23 @@ body.is-loading {
 }
 
 @keyframes shrinkbox-scroll-line {
-  0%   { transform: scaleY(1);   opacity: 0.3; transform-origin: top; }
-  50%  { transform: scaleY(0.4); opacity: 0.8; transform-origin: top; }
-  100% { transform: scaleY(1);   opacity: 0.3; transform-origin: top; }
+  0% {
+    transform: scaleY(1);
+    opacity: 0.3;
+    transform-origin: top;
+  }
+
+  50% {
+    transform: scaleY(0.4);
+    opacity: 0.8;
+    transform-origin: top;
+  }
+
+  100% {
+    transform: scaleY(1);
+    opacity: 0.3;
+    transform-origin: top;
+  }
 }
 
 @media (max-width: 768px) {
@@ -292,9 +313,11 @@ body.is-loading {
     margin-top: 2rem;
     max-width: 100%;
   }
+
   .hero-name-line--rautela {
     margin-left: 2rem;
   }
+
   .nav-dock-container {
     width: max-content;
     max-width: 95vw;
@@ -302,13 +325,16 @@ body.is-loading {
     gap: 1rem;
     bottom: 1.5rem;
   }
+
   .nav-dock-links {
     gap: 0.75rem;
   }
+
   .nav-dock-link {
     font-size: 0.65rem;
     letter-spacing: 0.05em;
   }
+
   .nav-dock-connect {
     padding: 0.5rem 0.8rem;
     font-size: 0.65rem;
@@ -513,9 +539,11 @@ body.is-loading {
   transform: translate(-50%, -50%);
   z-index: 50;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 1.5rem; /* Matches expand-box start size */
+  font-size: 1.5rem;
+  /* Matches expand-box start size */
   font-weight: 400;
-  color: rgba(0, 0, 0, 1); /* Full black for high visibility */
+  color: rgba(0, 0, 0, 1);
+  /* Full black for high visibility */
   line-height: 1;
   letter-spacing: 0;
   white-space: nowrap;
@@ -526,7 +554,8 @@ body.is-loading {
 
 @media (max-width: 768px) {
   .ghost-text {
-    font-size: 0.8rem; /* Matches expand-box mobile start size */
+    font-size: 0.8rem;
+    /* Matches expand-box mobile start size */
     line-height: 1;
     letter-spacing: -0.01em;
   }
@@ -792,11 +821,14 @@ body.is-loading {
 .about-section {
   position: relative;
   width: 100%;
-  min-height: 150vh; /* Reduced from 250vh for a shorter pause */
-  margin-top: -100vh; /* Restored to overlap ExpandBox and eliminate dead scroll */
+  min-height: 150vh;
+  /* Reduced from 250vh for a shorter pause */
+  margin-top: -100vh;
+  /* Restored to overlap ExpandBox and eliminate dead scroll */
   background: #000000;
   overflow: hidden;
-  z-index: 60; /* Higher than ExpandBox (55) to act as a black curtain over it */
+  z-index: 60;
+  /* Higher than ExpandBox (55) to act as a black curtain over it */
 }
 
 .about-inner {
@@ -816,7 +848,8 @@ body.is-loading {
   z-index: 2;
   width: 320px;
   height: 400px;
-  overflow: visible; /* Don't clip when scaling */
+  overflow: visible;
+  /* Don't clip when scaling */
   will-change: transform;
 }
 
@@ -831,7 +864,8 @@ body.is-loading {
 .about-portrait img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Show the full image without cropping */
+  object-fit: contain;
+  /* Show the full image without cropping */
 }
 
 /* Layer 2 & 3: Hands */
@@ -853,7 +887,8 @@ body.is-loading {
 
 @media (max-width: 768px) {
   .hand {
-    display: none; /* Hide hands on mobile to reduce clutter */
+    display: none;
+    /* Hide hands on mobile to reduce clutter */
   }
 }
 
@@ -869,11 +904,13 @@ body.is-loading {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem; /* Reduced from 4rem to fit more content on screen */
+  gap: 2rem;
+  /* Reduced from 4rem to fit more content on screen */
   z-index: 5;
   width: 100%;
   max-width: 720px;
-  padding: 4rem 2rem; /* Added vertical padding */
+  padding: 4rem 2rem;
+  /* Added vertical padding */
 }
 
 /* ── Bio Text Styles ──────────────────────────────── */
@@ -888,17 +925,24 @@ body.is-loading {
   .about-section {
     min-height: auto;
   }
+
   .about-inner {
     position: relative;
     height: auto;
     min-height: 100vh;
-    padding: 15vh 0; /* Natural scrolling padding */
+    padding: 15vh 0;
+    /* Natural scrolling padding */
   }
+
   .about-center-composition {
-    gap: 2.5rem; /* Increased space between portrait and bio on mobile */
-    padding: 0 1.5rem; /* Slightly more edge breathing room */
-    align-items: center; /* Re-center portrait */
+    gap: 2.5rem;
+    /* Increased space between portrait and bio on mobile */
+    padding: 0 1.5rem;
+    /* Slightly more edge breathing room */
+    align-items: center;
+    /* Re-center portrait */
   }
+
   .about-bio {
     margin-top: 0;
     padding: 0;
@@ -907,10 +951,12 @@ body.is-loading {
 
 .bio-line {
   font-family: var(--font-sans), system-ui, sans-serif;
-  font-size: 0.95rem; /* Slightly smaller to fit everything */
+  font-size: 0.95rem;
+  /* Slightly smaller to fit everything */
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.85);
-  margin-bottom: 1rem; /* Tighter gap */
+  margin-bottom: 1rem;
+  /* Tighter gap */
   opacity: 0;
   will-change: opacity, transform;
   transition:
@@ -920,7 +966,8 @@ body.is-loading {
 
 @media (max-width: 768px) {
   .bio-line {
-    font-size: 0.85rem; /* Smaller font for mobile */
+    font-size: 0.85rem;
+    /* Smaller font for mobile */
     line-height: 1.5;
     margin-bottom: 0.75rem;
   }
@@ -946,7 +993,8 @@ body.is-loading {
 
 .bio-line .ghost {
   opacity: 0.45;
-  display: inline; /* Keep inline with the paragraph */
+  display: inline;
+  /* Keep inline with the paragraph */
   margin-left: 0.25rem;
 }
 
@@ -958,6 +1006,7 @@ body.is-loading {
 
 /* ── Reduced motion: disable everything ───────────── */
 @media (prefers-reduced-motion: reduce) {
+
   [data-scroll="fade-up"]>*,
   [data-scroll="scale-in"] {
     opacity: 1 !important;

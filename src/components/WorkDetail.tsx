@@ -49,13 +49,13 @@ export default function WorkDetail() {
 
       {/* Immersive Hero Section */}
       <section className="relative h-screen overflow-hidden hero-new flex items-center justify-center text-center">
-        <motion.div 
+        <motion.div
           style={{ y: heroY, scale: heroScale, opacity: heroOpacity }}
           className="absolute inset-0 z-0"
         >
-          <img 
-            src={work.heroImage} 
-            alt={work.title} 
+          <img
+            src={work.heroImage}
+            alt={work.title}
             className="w-full h-full object-cover grayscale brightness-[0.2] opacity-50"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050505]" />
@@ -111,7 +111,7 @@ export default function WorkDetail() {
             </div>
           </div>
 
-          <motion.a 
+          <motion.a
             href={work.link}
             whileHover={{ scale: 1.02 }}
             className="inline-flex items-center justify-center lg:justify-start gap-4 md:gap-8 py-4 md:py-6 px-8 md:px-12 bg-white text-black font-mono text-[8px] md:text-[10px] uppercase tracking-[0.3em] md:tracking-[0.4em] rounded-full hover:bg-blue-500 hover:text-white transition-all duration-700 shadow-2xl w-full lg:w-auto"
@@ -140,10 +140,10 @@ export default function WorkDetail() {
                 </div>
                 <span className="font-mono text-[6px] md:text-[8px] uppercase tracking-[0.3em] text-white/30 truncate">prod_v01.enc</span>
               </div>
-              <img 
-                src={work.image} 
-                alt="Production Detail" 
-                className="w-full h-auto rounded-lg md:rounded-2xl grayscale brightness-110 contrast-110 group-hover:grayscale-0 transition-all duration-1000 ease-in-out" 
+              <img
+                src={work.image}
+                alt="Production Detail"
+                className="w-full h-auto rounded-lg md:rounded-2xl grayscale brightness-110 contrast-110 group-hover:grayscale-0 transition-all duration-1000 ease-in-out"
               />
             </div>
           </div>
@@ -164,7 +164,7 @@ export default function WorkDetail() {
 
       {/* Next Project Cinematic Transition */}
       <section className="relative overflow-hidden">
-        <motion.div 
+        <motion.div
           initial={{ backgroundColor: "#050505" }}
           whileInView={{ backgroundColor: "#f8f9fa" }}
           transition={{ duration: 1.5, ease: "easeInOut" }}
@@ -173,11 +173,11 @@ export default function WorkDetail() {
         >
           <div className="max-w-7xl mx-auto px-6">
             <span className="font-mono text-[10px] uppercase tracking-[0.4em] md:tracking-[0.8em] text-black/20 block mb-8 md:mb-16">Next Discovery</span>
-            <Link 
+            <Link
               to={`/selected-work/${nextWork.slug}`}
               className="group inline-block"
             >
-              <motion.h2 
+              <motion.h2
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1.2 }}
