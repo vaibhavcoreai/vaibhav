@@ -419,7 +419,8 @@ class App {
   boundOnWheel!: (e: Event) => void;
   boundOnTouchDown!: (e: MouseEvent | TouchEvent) => void;
   boundOnTouchMove!: (e: MouseEvent | TouchEvent) => void;
-  boundOnTouchUp!: () => void;
+  boundOnTouchUp!: (e: MouseEvent | TouchEvent) => void;
+  onMouseMove!: (e: MouseEvent) => void;
 
   isDown: boolean = false;
   start: number = 0;
@@ -646,6 +647,42 @@ class App {
     this.boundOnTouchDown = this.onTouchDown.bind(this);
     this.boundOnTouchMove = this.onTouchMove.bind(this);
     this.boundOnTouchUp = this.onTouchUp.bind(this);
+    
+    // Mouse move for hover detection
+    this.onMouseMove = (e: MouseEvent) => {
+      const x = e.clientX;
+      const y = e.clientY;
+      
+      // Calculate normalized device coordinates
+      const mouseX = (x / this.screen.width) * 2 - 1;
+      const mouseY = -(y / this.screen.height) * 2 + 1;
+      
+      // Simple approximation for hover since we aren't using a full raycaster object:
+      // We check if the mouse is roughly over any visible plane
+      const isOverAny = this.medias.some(media => {
+        const planeX = media.plane.position.x;
+        const planeY = media.plane.position.y;
+        const scaleX = media.plane.scale.x / 2;
+        const scaleY = media.plane.scale.y / 2;
+        
+        // Convert plane position to screen-ish space for a quick check
+        // (This is an approximation that works well for this cylinder layout)
+        const viewX = (planeX / (this.viewport.width / 2));
+        const viewY = (planeY / (this.viewport.height / 2));
+        
+        return Math.abs(mouseX - viewX) < scaleX / (this.viewport.width / 2) && 
+               Math.abs(mouseY - viewY) < scaleY / (this.viewport.height / 2);
+      });
+
+      if (isOverAny) {
+        this.container.style.cursor = 'pointer';
+        this.container.setAttribute('data-cursor-hover', 'true');
+      } else {
+        this.container.style.cursor = this.isDown ? 'grabbing' : 'grab';
+        this.container.removeAttribute('data-cursor-hover');
+      }
+    };
+
     window.addEventListener('resize', this.boundOnResize);
     window.addEventListener('mousewheel', this.boundOnWheel);
     window.addEventListener('wheel', this.boundOnWheel);
@@ -655,6 +692,7 @@ class App {
     window.addEventListener('touchstart', this.boundOnTouchDown);
     window.addEventListener('touchmove', this.boundOnTouchMove);
     window.addEventListener('touchend', this.boundOnTouchUp);
+    this.container.addEventListener('mousemove', this.onMouseMove);
   }
 
   destroy() {
@@ -668,6 +706,7 @@ class App {
     window.removeEventListener('touchstart', this.boundOnTouchDown);
     window.removeEventListener('touchmove', this.boundOnTouchMove);
     window.removeEventListener('touchend', this.boundOnTouchUp);
+    this.container.removeEventListener('mousemove', this.onMouseMove);
     if (this.renderer && this.renderer.gl && this.renderer.gl.canvas.parentNode) {
       this.renderer.gl.canvas.parentNode.removeChild(this.renderer.gl.canvas as HTMLCanvasElement);
     }
