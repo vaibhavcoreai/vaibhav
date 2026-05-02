@@ -35,21 +35,23 @@ export default function AboutSection() {
     }
 
     const progress = getScrollProgress(section);
-    // Master opacity for the reveal: fades in over the first 30% of scroll
-    const revealOp = Math.min(1, progress * 3.33);
+    const isMobile = window.innerWidth <= 768;
+
+    // Master opacity: on desktop, fade over 30% of scroll. On mobile, fade faster to avoid clashing with DecryptedText.
+    const revealOp = isMobile ? Math.min(1, progress * 6) : Math.min(1, progress * 3.33);
 
     // LAYER 1: Center Portrait
     if (portraitRef.current) {
-      const scale = 1 + progress * 0.28;
+      const scale = 1 + progress * (isMobile ? 0.15 : 0.28);
       portraitRef.current.style.transform = `scale(${scale})`;
       portraitRef.current.style.opacity = String(revealOp);
     }
 
-    // LAYER 4: Bio Text (now part of the same reveal)
+    // LAYER 4: Bio Text
     if (bioRef.current) {
       bioRef.current.style.opacity = String(revealOp);
-      // Optional: slight translateY slide as it fades in
-      const bioY = (1 - revealOp) * 20;
+      // Reduce translateY on mobile for a subtler effect
+      const bioY = (1 - revealOp) * (isMobile ? 10 : 20);
       bioRef.current.style.transform = `translateY(${bioY}px)`;
     }
 

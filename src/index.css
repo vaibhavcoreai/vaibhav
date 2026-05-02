@@ -930,6 +930,7 @@ body.is-loading {
 @media (max-width: 768px) {
   .about-section {
     min-height: auto;
+    margin-top: 0; /* Remove overlap on mobile */
   }
 
   .about-inner {
