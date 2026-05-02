@@ -925,6 +925,7 @@ body.is-loading {
   z-index: 15;
   text-align: left;
   width: 100%;
+  will-change: transform; /* Promote to GPU layer for better scroll performance */
 }
 
 @media (max-width: 768px) {
@@ -936,7 +937,7 @@ body.is-loading {
   .about-inner {
     position: relative;
     height: auto;
-    min-height: 100vh;
+    min-height: 140vh; /* Increased to make the section feel more substantial on mobile */
     padding: 15vh 0;
     /* Natural scrolling padding */
   }
