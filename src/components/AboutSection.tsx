@@ -1,5 +1,6 @@
 import { useEffect, useRef, useCallback } from 'react';
 import MetaBalls from './MetaBalls';
+import DecryptedText from './DecryptedText';
 
 /**
  * AboutSection — Parashux-style 4-layer scroll reveal
@@ -129,13 +130,31 @@ export default function AboutSection() {
 
           <div ref={bioRef} className="about-bio">
             <p className="bio-line bio-revealed">
-              From <strong>Solapur, Maharashtra</strong>, I’m <strong>Vaibhav</strong>—somewhere between code and consciousness. I study <strong>Data Science and AI at IIT Madras</strong>, building a strong foundation while stepping into psychology. I’m curious about both systems and the human mind—how machines learn, and why people think, feel, and behave the way they do.
+              <DecryptedText 
+                text="From Solapur, Maharashtra, I’m Vaibhav—somewhere between code and consciousness. I study Data Science and AI at IIT Madras, building a strong foundation while stepping into psychology. I’m curious about both systems and the human mind—how machines learn, and why people think, feel, and behave the way they do."
+                animateOn="view"
+                revealDirection="start"
+                speed={3}
+                sequential={true}
+              />
             </p>
             <p className="bio-line bio-revealed">
-              I care about design, clarity, and the way ideas take shape. Whether it’s code, a concept, or a product, I approach things with intention—learning deeply, building patiently, and refining my vision through hands-on work and exploration.
+              <DecryptedText 
+                text="I care about design, clarity, and the way ideas take shape. Whether it’s code, a concept, or a product, I approach things with intention—learning deeply, building patiently, and refining my vision through hands-on work and exploration."
+                animateOn="view"
+                revealDirection="start"
+                speed={3}
+                sequential={true}
+              />
             </p>
             <p className="bio-line bio-revealed">
-              Outside of academics, I’m shaped by <strong>music, literature</strong>, and quiet observation. Flute, sitar, harmonium, piano—different forms, same expression. Drawn to nature and human philosophy, I’m exploring the intersection of <strong>AI, creativity, and human behavior</strong>, one step at a time.
+              <DecryptedText 
+                text="Outside of academics, I’m shaped by music, literature, and quiet observation. Flute, sitar, harmonium, piano—different forms, same expression. Drawn to nature and human philosophy, I’m exploring the intersection of AI, creativity, and human behavior, one step at a time."
+                animateOn="view"
+                revealDirection="start"
+                speed={3}
+                sequential={true}
+              />
             </p>
             <div className="mt-12 w-full h-64 relative">
               <MetaBalls color="#ffffff" cursorBallColor="#ffffff" speed={0.25} ballCount={18} animationSize={60} cursorBallSize={3} enableTransparency={true} />
